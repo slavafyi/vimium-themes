@@ -1,0 +1,653 @@
+/* Vimium Themes: Minimal
+ * Flat neutral surfaces, inverse hint labels, and an accent color only for focus and links.
+ * Paste into Vimium Options > Advanced Options > CSS for Vimium UI.
+ * Vimium injects this CSS into every page, so all rules are scoped to Vimium's own elements. */
+
+:root {
+  --vx-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  --vx-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  --vx-hint-font: var(--vx-mono);
+
+  --vx-radius: 6px;
+  --vx-row-radius: 4px;
+  --vx-hint-radius: 3px;
+  --vx-hud-radius: 4px;
+
+  --vx-bg: #ffffff;
+  --vx-surface: rgba(0, 0, 0, 0.04);
+  --vx-selected: rgba(0, 0, 0, 0.055);
+  --vx-border: rgba(0, 0, 0, 0.1);
+  --vx-text: #1f1f22;
+  --vx-muted: #6e6e76;
+  --vx-faint: #a0a0a8;
+  --vx-accent: #2563eb;
+  --vx-on-accent: #ffffff;
+  --vx-ring: rgba(37, 99, 235, 0.2);
+
+  --vx-match-color: var(--vx-text);
+  --vx-match-weight: 600;
+
+  --vx-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.12);
+  --vx-hud-shadow: none;
+  --vx-backdrop: rgba(0, 0, 0, 0.25);
+
+  --vx-hint-bg: #1f1f22;
+  --vx-hint-text: #fafafa;
+  --vx-hint-typed: rgba(250, 250, 250, 0.35);
+  --vx-hint-border: transparent;
+  --vx-hint-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+
+  --vx-input-size: 16px;
+  --vx-input-height: 44px;
+  --vx-row-font: 14px;
+  --vx-row-pad: 7px 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --vx-bg: #1e1e20;
+    --vx-surface: rgba(255, 255, 255, 0.05);
+    --vx-selected: rgba(255, 255, 255, 0.07);
+    --vx-border: rgba(255, 255, 255, 0.1);
+    --vx-text: #ececee;
+    --vx-muted: #a0a0a8;
+    --vx-faint: #6e6e76;
+    --vx-accent: #8ab4ff;
+    --vx-on-accent: #0b1220;
+    --vx-ring: rgba(138, 180, 255, 0.22);
+    --vx-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.45);
+    --vx-hud-shadow: none;
+    --vx-hint-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --vx-backdrop: rgba(0, 0, 0, 0.4);
+    --vx-hint-bg: #ececee;
+    --vx-hint-text: #1e1e20;
+    --vx-hint-typed: rgba(30, 30, 32, 0.35);
+  }
+}
+
+div.vimiumHintMarker.internal-vimium-hint-marker {
+  padding: 1px 4px;
+  background: var(--vx-hint-bg);
+  border: 1px solid var(--vx-hint-border);
+  border-radius: var(--vx-hint-radius);
+  box-shadow: var(--vx-hint-shadow);
+}
+
+div.vimiumHintMarker.internal-vimium-hint-marker > span {
+  color: var(--vx-hint-text);
+  font-family: var(--vx-hint-font);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-shadow: none;
+}
+
+div.vimiumHintMarker.internal-vimium-hint-marker > span.matchingCharacter {
+  color: var(--vx-hint-typed);
+}
+
+div.vimiumHintMarker.vimiumActiveHintMarker {
+  background: var(--vx-accent);
+  border-color: transparent;
+}
+
+div > div.vimiumHintMarker.vimiumActiveHintMarker span {
+  color: var(--vx-on-accent) !important;
+}
+
+div.internal-vimium-input-hint {
+  background-color: var(--vx-ring);
+  border: 1px solid var(--vx-accent);
+  border-radius: 4px;
+}
+
+div.internal-vimium-selected-input-hint {
+  border: 2px solid var(--vx-accent) !important;
+}
+
+div.vimium-highlighted-frame {
+  border: 2px solid var(--vx-accent);
+}
+
+div.vimium-flash {
+  box-shadow: 0 0 0 2px var(--vx-accent);
+  border-radius: 3px;
+}
+
+body.vimium-find-mode ::selection {
+  background: #fde047;
+  color: #111;
+}
+
+iframe.vomnibar-frame {
+  width: min(720px, calc(100% - 32px));
+  min-width: 0;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  top: 10vh;
+  height: 90vh;
+}
+
+iframe.vimium-hud-frame {
+  bottom: 0;
+  right: 16px;
+}
+
+iframe.vimium-help-dialog-frame {
+  background-color: var(--vx-backdrop);
+}
+
+#vomnibar:has(> #vomnibar-search-area) {
+  width: calc(100% - 48px);
+  top: 12px;
+  left: 24px;
+  font-family: var(--vx-font);
+  background: var(--vx-bg);
+  color: var(--vx-text);
+  border: 1px solid var(--vx-border);
+  border-radius: var(--vx-radius);
+  box-shadow: var(--vx-shadow);
+  overflow: hidden;
+
+  & #vomnibar-search-area {
+    padding: 0 4px;
+    border: none;
+    border-radius: 0;
+  }
+
+  & input {
+    height: var(--vx-input-height);
+    padding: 0 10px;
+    font-family: var(--vx-font);
+    font-size: var(--vx-input-size);
+    background: transparent;
+    color: var(--vx-text);
+    caret-color: var(--vx-accent);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  & input::placeholder {
+    color: var(--vx-faint);
+  }
+
+  & input::selection {
+    background: var(--vx-ring);
+    color: inherit;
+  }
+
+  & ul {
+    padding: 4px;
+    border-top: 1px solid var(--vx-border);
+    border-radius: 0;
+  }
+
+  & li {
+    padding: var(--vx-row-pad);
+    font-size: var(--vx-row-font);
+    line-height: 1.35;
+    color: var(--vx-text);
+    border: none;
+    border-radius: var(--vx-row-radius);
+  }
+
+  & li.selected {
+    background: var(--vx-selected);
+  }
+
+  & li .top-half,
+  & li .bottom-half {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  & li .bottom-half {
+    margin-top: 1px;
+    padding: 0;
+    font-size: 12px;
+  }
+
+  & li .source {
+    margin-right: 8px;
+    font-size: 12px;
+    color: var(--vx-faint);
+  }
+
+  & li .source:empty {
+    display: none;
+  }
+
+  & li .icon {
+    width: 14px;
+    height: 14px;
+    padding: 0 8px 0 0;
+    vertical-align: -2px;
+  }
+
+  & li .title,
+  & li em {
+    margin-left: 0;
+    color: var(--vx-text);
+  }
+
+  & li .url {
+    color: var(--vx-muted);
+  }
+
+  & li .match,
+  & li .title .match,
+  & li em .match,
+  & li .url .match {
+    color: var(--vx-match-color);
+    font-weight: var(--vx-match-weight);
+  }
+
+  & li .relevancy {
+    color: var(--vx-faint);
+    font-family: var(--vx-mono);
+  }
+}
+
+#hud-container:has(> #search-area > #hud) {
+  width: auto;
+  min-width: 120px;
+  max-width: calc(100% - 20px);
+  left: auto;
+  right: 10px;
+  bottom: 8px;
+  font-family: var(--vx-font);
+  background: var(--vx-bg);
+  color: var(--vx-text);
+  border: 1px solid var(--vx-border);
+  border-radius: var(--vx-hud-radius);
+  box-shadow: var(--vx-hud-shadow);
+
+  & #search-area {
+    padding: 0;
+    color: var(--vx-text);
+    border-radius: var(--vx-hud-radius);
+  }
+
+  & #hud,
+  & #hud.hud-find {
+    height: 28px;
+    padding: 0 10px;
+    font-size: 13px;
+    line-height: 28px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background: transparent;
+    border: none;
+    border-radius: var(--vx-hud-radius);
+  }
+
+  & span#hud-find-input::before {
+    margin-right: 3px;
+    color: var(--vx-faint);
+    font-family: var(--vx-mono);
+  }
+
+  & span#hud-match-count {
+    margin-left: 10px;
+    color: var(--vx-muted);
+    font-size: 12px;
+  }
+}
+
+:is(#container:has(> #dialog > #commands-section), body.vimium-body:has(> main > h2[data-group])) {
+  & .key {
+    margin-left: 2px;
+    padding: 1px 5px;
+    font-family: var(--vx-mono);
+    font-size: 11px;
+    color: var(--vx-text);
+    background: var(--vx-surface);
+    border: 1px solid var(--vx-border);
+    border-radius: 4px;
+    box-shadow: none;
+  }
+
+  & .comma {
+    color: var(--vx-faint);
+  }
+}
+
+#container:has(> #dialog > #commands-section) {
+  width: 880px;
+  max-width: calc(100% - 80px);
+  max-height: calc(100vh - 80px);
+  margin: 40px auto;
+  font-family: var(--vx-font);
+  background: var(--vx-bg);
+  border: 1px solid var(--vx-border);
+  border-radius: var(--vx-radius);
+  box-shadow: var(--vx-shadow);
+  scrollbar-width: thin;
+
+  & #dialog {
+    padding: 16px 22px 14px;
+    background: transparent;
+    color: var(--vx-text);
+  }
+
+  & a {
+    color: var(--vx-accent);
+    text-decoration: none;
+  }
+
+  & a:hover {
+    text-decoration: underline;
+  }
+
+  & h1 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--vx-text);
+  }
+
+  & h1 .vim {
+    color: inherit;
+  }
+
+  & header a {
+    font-size: 13px;
+    padding: 0 6px;
+  }
+
+  & a#close {
+    padding: 0 0 0 8px;
+    top: 0;
+    font-family: var(--vx-font);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--vx-muted);
+    text-decoration: none;
+  }
+
+  & a#close:hover {
+    color: var(--vx-text);
+  }
+
+  & div.divider {
+    margin: 12px 0;
+    background-color: var(--vx-border);
+  }
+
+  & #commands-section {
+    gap: 40px;
+  }
+
+  & .column {
+    column-gap: 4px;
+    row-gap: 3px;
+  }
+
+  & h2 {
+    margin: 14px 0 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--vx-muted);
+  }
+
+  & .help-description {
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--vx-text);
+  }
+
+  & .key-bindings {
+    max-width: 130px;
+  }
+
+  & #toggle-advanced {
+    margin-top: 8px;
+    font-size: 12px;
+  }
+
+  & footer {
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--vx-muted);
+  }
+}
+
+body.vimium-body:where(:has(#settings-grid-container), :has(> main > h2[data-group])) {
+  font: 14px/1.5 var(--vx-font);
+  color: var(--vx-text);
+  background: var(--vx-bg);
+
+  & a,
+  & a:visited {
+    color: var(--vx-accent);
+    text-decoration: none;
+  }
+
+  & a:hover {
+    text-decoration: underline;
+  }
+
+  & pre,
+  & code,
+  & .code {
+    font-family: var(--vx-mono);
+    font-size: 12px;
+  }
+}
+
+body.vimium-body:has(#settings-grid-container) {
+  & #wrapper,
+  & #footer-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 32px;
+    box-sizing: border-box;
+  }
+
+  & header {
+    padding: 28px 0 14px;
+    font-size: 20px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--vx-border);
+  }
+
+  & #settings-grid-container {
+    column-gap: 32px;
+  }
+
+  & h2 {
+    margin: 28px 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--vx-text);
+  }
+
+  & .example {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--vx-muted);
+  }
+
+  & pre {
+    border-left: 1px solid var(--vx-border);
+    padding-left: 8px;
+  }
+
+  & input[type="text"],
+  & input[type="number"],
+  & input:not([type]),
+  & textarea {
+    padding: 5px 8px;
+    font: 13px/1.5 var(--vx-font);
+    color: var(--vx-text);
+    background: var(--vx-bg);
+    border: 1px solid var(--vx-border);
+    border-radius: var(--vx-row-radius);
+  }
+
+  & textarea,
+  & input[name="pattern"],
+  & input[name="passKeys"],
+  & .exclusion-header-text {
+    font-family: var(--vx-mono);
+    font-size: 12px;
+  }
+
+  & input:focus,
+  & textarea:focus {
+    border-color: var(--vx-accent);
+    box-shadow: 0 0 0 3px var(--vx-ring);
+    outline: none;
+  }
+
+  & input[type="checkbox"],
+  & input[type="radio"] {
+    accent-color: var(--vx-accent);
+  }
+
+  & button {
+    padding: 4px 12px;
+    font: 13px var(--vx-font);
+    color: var(--vx-text);
+    background: var(--vx-bg);
+    background-image: none;
+    border: 1px solid var(--vx-border);
+    border-radius: var(--vx-row-radius);
+    box-shadow: none;
+    text-shadow: none;
+    cursor: pointer;
+  }
+
+  & button:hover {
+    background: var(--vx-surface);
+  }
+
+  & button[disabled],
+  & button[disabled]:hover {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  & button#save {
+    color: var(--vx-on-accent);
+    background: var(--vx-accent);
+    border-color: transparent;
+  }
+
+  & #exclusion-rules .remove {
+    color: var(--vx-faint);
+    background: none;
+    border: none;
+  }
+
+  & #exclusion-rules .remove:hover {
+    color: var(--vx-text);
+  }
+
+  & footer {
+    padding: 10px 0;
+    background: var(--vx-bg);
+    border-top: 1px solid var(--vx-border);
+  }
+
+  & #footer-help-text {
+    color: var(--vx-muted);
+  }
+}
+
+body.vimium-body:has(> main > h2[data-group]) {
+  grid-template-columns: 220px auto;
+
+  & header {
+    padding: 18px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--vx-border);
+  }
+
+  & nav {
+    padding-top: 16px;
+    border-right: 1px solid var(--vx-border);
+  }
+
+  & nav ul {
+    padding-left: 24px;
+  }
+
+  & nav ul li {
+    margin: 6px 0;
+    font-size: 13px;
+  }
+
+  & nav a,
+  & nav a:visited {
+    color: var(--vx-muted);
+  }
+
+  & nav a:hover {
+    color: var(--vx-text);
+    text-decoration: none;
+  }
+
+  & main {
+    margin: 0;
+    padding: 8px 0 48px;
+  }
+
+  & h2 {
+    margin: 24px 0 4px;
+    padding: 0 32px 8px;
+    font-size: 15px;
+    font-weight: 600;
+    background: none;
+    border-bottom: 1px solid var(--vx-border);
+  }
+
+  & .command {
+    max-width: 860px;
+    margin: 0;
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--vx-border);
+  }
+
+  & h3 {
+    align-items: center;
+    margin: 0 0 4px;
+    font-size: 14px;
+  }
+
+  & h3 code {
+    padding: 1px 6px;
+    font-size: 13px;
+    color: var(--vx-text);
+    background: var(--vx-surface);
+    border-radius: 4px;
+  }
+
+  & p.desc,
+  & p.details,
+  & .options {
+    margin: 4px 0 0;
+    font-size: 13px;
+  }
+
+  & p.details,
+  & .options {
+    color: var(--vx-muted);
+  }
+
+  & .options ul {
+    margin: 4px 0;
+    padding-left: 18px;
+  }
+
+  & .options code,
+  & p code {
+    padding: 0 4px;
+    background: var(--vx-surface);
+    border-radius: 3px;
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "vimium-themes",
+  "version": "0.0.0",
+  "description": "Minimal CSS themes for Vimium",
+  "keywords": [
+    "css",
+    "vimium",
+    "vimium-theme"
+  ],
+  "homepage": "https://github.com/slavafyi/vimium-themes#readme",
+  "bugs": {
+    "url": "https://github.com/slavafyi/vimium-themes/issues"
+  },
+  "license": "MIT",
+  "author": "Slava M. <hi@slava.fyi>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slavafyi/vimium-themes.git"
+  },
+  "type": "module",
+  "scripts": {
+    "fmt": "oxfmt --write .",
+    "fmt:check": "oxfmt --check .",
+    "lint": "stylelint 'themes/*.css'",
+    "release": "bumpp"
+  },
+  "devDependencies": {
+    "bumpp": "^12.3.0",
+    "oxfmt": "^0.78.0",
+    "stylelint": "^18.0.0",
+    "stylelint-config-recommended": "^19.0.0"
+  },
+  "packageManager": "pnpm@12.16.1",
+  "changelogithub": {
+    "types": {
+      "docs": {
+        "title": "📚 Documentation"
+      }
+    }
+  }
+}

@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <!--
+  Contains stylesheets and markup from Vimium 2.4.2 (https://github.com/philc/vimium).
+  Copyright (c) 2010 Phil Crosby, Ilya Sukhar. MIT License.
+-->
+    <title>Vimium Themes preview</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --b: rgba(127, 127, 127, 0.22);
+        --m: #8a8a90;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font:
+          14px/1.5 -apple-system,
+          BlinkMacSystemFont,
+          system-ui,
+          sans-serif;
+        background: Canvas;
+        color: CanvasText;
+      }
+      body.light {
+        color-scheme: light;
+      }
+      body.dark {
+        color-scheme: dark;
+      }
+      header.top {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 20px;
+        align-items: center;
+        padding: 12px 32px;
+        background: Canvas;
+        border-bottom: 1px solid var(--b);
+      }
+      header.top h1 {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0;
+        flex: 1;
+      }
+      .seg {
+        display: inline-flex;
+        gap: 2px;
+        padding: 2px;
+        border: 1px solid var(--b);
+        border-radius: 9px;
+      }
+      .seg span {
+        color: var(--m);
+        font-size: 12px;
+        padding: 0 6px 0 8px;
+        align-self: center;
+      }
+      .seg button,
+      #copy {
+        font: inherit;
+        font-size: 12px;
+        border: 0;
+        background: none;
+        color: inherit;
+        padding: 4px 10px;
+        border-radius: 7px;
+        cursor: pointer;
+      }
+      .seg button.on {
+        background: rgba(127, 127, 127, 0.18);
+      }
+      #copy {
+        border: 1px solid var(--b);
+        padding: 5px 12px;
+      }
+      #css-name {
+        color: var(--m);
+        font:
+          12px ui-monospace,
+          Menlo,
+          monospace;
+      }
+      main {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 4px 32px 64px;
+      }
+      section h2 {
+        font-size: 13px;
+        font-weight: 600;
+        margin: 28px 0 2px;
+      }
+      section > p {
+        margin: 0 0 10px;
+        color: var(--m);
+        font-size: 12.5px;
+      }
+      .grid {
+        display: grid;
+        gap: 14px;
+      }
+      .g2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      figure {
+        margin: 0;
+      }
+      figcaption {
+        font-size: 12px;
+        color: var(--m);
+        margin-bottom: 4px;
+      }
+      iframe.view {
+        width: 100%;
+        height: 560px;
+        border: 1px solid var(--b);
+        border-radius: 12px;
+        display: block;
+        background: transparent;
+      }
+      .h-strip {
+        height: 84px !important;
+      }
+      .h-sm {
+        height: 300px !important;
+      }
+      .h-xs {
+        height: 170px !important;
+      }
+      .h-md {
+        height: 420px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <h1>Vimium Themes preview</h1>
+      <div class="seg" id="variant">
+        <span>Theme</span><button data-v="minimal" class="on">Minimal</button
+        ><button data-v="zed">Zed</button><button data-v="original">Vimium default</button>
+      </div>
+      <span id="css-name"></span>
+    </header>
+    <main>
+      <section>
+        <h2>Link hints</h2>
+        <p>
+          After pressing <b>f</b>, and after typing <b>s</b> (non-matching hints hide, typed letters
+          fade).
+        </p>
+        <div class="grid g2">
+          <figure>
+            <figcaption>f: all hints</figcaption>
+            <iframe class="view h-md" id="v-hints"></iframe>
+          </figure>
+          <figure>
+            <figcaption>f, then s</figcaption>
+            <iframe class="view h-md" id="v-hints-typed"></iframe>
+          </figure>
+        </div>
+      </section>
+      <section>
+        <h2>Hint states</h2>
+        <p>
+          Default · typed first letter · active (cycling overlapping hints) · input hint (gi) ·
+          selected input
+        </p>
+        <iframe class="view h-strip" id="v-states"></iframe>
+      </section>
+      <section>
+        <h2>Find mode</h2>
+        <p>
+          Press <b>/</b> and type. Vimium selects the current match on the page, and the HUD shows
+          the query and match count.
+        </p>
+        <div class="grid g3">
+          <figure>
+            <figcaption>Single word</figcaption>
+            <iframe class="view h-sm" id="v-find-word"></iframe>
+          </figure>
+          <figure>
+            <figcaption>Sentence</figcaption>
+            <iframe class="view h-sm" id="v-find-sentence"></iframe>
+          </figure>
+          <figure>
+            <figcaption>No matches</figcaption>
+            <iframe class="view h-sm" id="v-find-none"></iframe>
+          </figure>
+        </div>
+      </section>
+      <section>
+        <h2>HUD messages</h2>
+        <p>
+          Short status messages: copying a URL (<b>yy</b>), visual mode (<b>v</b>), insert mode
+          (<b>i</b>).
+        </p>
+        <div class="grid g3">
+          <figure>
+            <figcaption>yy</figcaption>
+            <iframe class="view h-xs" id="v-hud-yank"></iframe>
+          </figure>
+          <figure>
+            <figcaption>v</figcaption>
+            <iframe class="view h-xs" id="v-hud-visual"></iframe>
+          </figure>
+          <figure>
+            <figcaption>i</figcaption>
+            <iframe class="view h-xs" id="v-hud-insert"></iframe>
+          </figure>
+        </div>
+      </section>
+      <section>
+        <h2>Vomnibar</h2>
+        <p>Open with <b>o</b> / <b>T</b> / <b>b</b>. The first row is selected.</p>
+        <iframe class="view" id="v-vomni"></iframe>
+        <div class="grid g2" style="margin-top: 14px">
+          <figure>
+            <figcaption>o: just opened, empty</figcaption>
+            <iframe class="view h-sm" id="v-vomni-empty"></iframe>
+          </figure>
+          <figure>
+            <figcaption>T: tab switcher</figcaption>
+            <iframe class="view h-sm" id="v-vomni-tabs"></iframe>
+          </figure>
+        </div>
+      </section>
+      <section>
+        <h2>Help dialog</h2>
+        <p>Opened with <b>?</b>.</p>
+        <iframe class="view" id="v-help" style="height: 680px"></iframe>
+      </section>
+      <section>
+        <h2>Options page</h2>
+        <p>Vimium's settings page with sample rules, mappings, and search engines.</p>
+        <iframe class="view" id="v-options" style="height: 820px"></iframe>
+      </section>
+      <section>
+        <h2>All commands page</h2>
+        <p>Opened from Options → "See all available commands" (sample of commands shown).</p>
+        <iframe class="view" id="v-commands" style="height: 700px"></iframe>
+      </section>
+    </main>
+    <script>
+      const ORIG = {
+        vimium:
+          '/*\n * Many CSS class names in this file use the verbose "vimium-" as the class name. This is so we\n * don\'t use the same CSS class names that the page is using, so the page\'s CSS doesn\'t mess with\n * the style of our Vimium dialogs.\n *\n * We use the maximum z-index value for all Vimium elements to guarantee that they always appear on\n * top. Chrome supports z-index values up to 2,147,483,647 (= 2^31 - 1). We utilize the maximum\n * z-index value allowable to ensure Vimium elements have precedence over all other page elements.\n */\n\n/*\n * This vimium-reset class can be added to any of our UI elements to give it a clean slate. This is\n * useful in case the page has declared a broad rule like "a { padding: 50px; }" which will mess up\n * our UI. These declarations contain more specifiers than necessary to increase their specificity\n * (precedence).\n */\n\n:root {\n  --vimium-background-color: white;\n  --vimium-background-text-color: black;\n  --vimium-foreground-color: white;\n  --vimium-foreground-text-color: black;\n  --vimium-link-color: blue;\n}\n\n.vimium-reset,\ndiv.vimium-reset,\nspan.vimium-reset,\ntable.vimium-reset,\na.vimium-reset,\na:visited.vimium-reset,\na:link.vimium-reset,\na:hover.vimium-reset,\ntd.vimium-reset,\ntr.vimium-reset {\n  background: none;\n  border: none;\n  bottom: auto;\n  box-shadow: none;\n  color: black;\n  cursor: auto;\n  display: inline;\n  float: none;\n  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;\n  font-size: inherit;\n  font-style: normal;\n  font-variant: normal;\n  font-weight: normal;\n  height: auto;\n  left: auto;\n  letter-spacing: 0;\n  line-height: 100%;\n  margin: 0;\n  max-height: none;\n  max-width: none;\n  min-height: 0;\n  min-width: 0;\n  opacity: 1;\n  padding: 0;\n  position: static;\n  right: auto;\n  text-align: left;\n  text-decoration: none;\n  text-indent: 0;\n  text-shadow: none;\n  text-transform: none;\n  top: auto;\n  vertical-align: baseline;\n  white-space: normal;\n  width: auto;\n  z-index: 2147483647;\n}\n\nthead.vimium-reset, tbody.vimium-reset {\n  display: table-header-group;\n}\n\ntbody.vimium-reset {\n  display: table-row-group;\n}\n\n/*\n * Linkhints CSS\n */\n\n/* Prior to 2025, we used camel case for all CSS selectors. We\'re preserving some camel case class\n * names here in link hints for backwards compatibility, because they\'re user-customizable via the\n * userDefinedLinkHintCss setting.\n *\n * Our default example value for userDefinedLinkHintCss refers to the "vimiumHintMarker" and\n * "matchingCharacter" classes. We\'ll assume these are user-facing and should not be changed:\n *   - vimiumHintMarker\n *   - matchingCharacter\n *   - vimiumActiveHintMarker\n *\n * Note that link hint elements have both internal-vimium-hint-marker and vimiumHintMarker classes.\n * Presumably the "internal-" classes were meant to contain non-user-facing styles, and\n * vimiumHintMarker was meant to be an empty vessel for users to attach their own styles to.\n */\n\ndiv#vimium-hint-marker-container {\n  pointer-events: none;\n}\n\ndiv.internal-vimium-hint-marker {\n  position: absolute;\n  display: block;\n  top: -1px;\n  left: -1px;\n  white-space: nowrap;\n  overflow: hidden;\n  font-size: 11px;\n  padding: 1px 3px 0px 3px;\n  background: linear-gradient(to bottom, #fff785 0%, #ffc542 100%);\n  border: solid 1px #c38a22;\n  border-radius: 3px;\n  box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.3);\n  z-index: 2147483647;\n}\n\ndiv.internal-vimium-hint-marker span {\n  color: #302505;\n  font-family: Helvetica, Arial, sans-serif;\n  font-weight: bold;\n  font-size: 11px;\n  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);\n}\n\ndiv.internal-vimium-hint-marker > .matchingCharacter {\n  color: #d4ac3a;\n}\n\ndiv > .vimiumActiveHintMarker span {\n  color: #a07555 !important;\n}\n\n/* Input hints CSS */\n\ndiv.internal-vimium-input-hint {\n  position: absolute;\n  display: block;\n  background-color: rgba(255, 247, 133, 0.3);\n  border: solid 1px #c38a22;\n  pointer-events: none;\n}\n\ndiv.internal-vimium-selected-input-hint {\n  background-color: rgba(255, 102, 102, 0.3);\n  border: solid 1px #993333 !important;\n}\n\ndiv.internal-vimium-selected-input-hint span {\n  color: white !important;\n}\n\ndiv.vimium-highlighted-frame {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100%;\n  height: 100%;\n  padding: 0px;\n  margin: 0px;\n  border: 5px solid yellow;\n  box-sizing: border-box;\n  pointer-events: none;\n}\n\niframe.vimium-help-dialog-frame {\n  background-color: rgba(10, 10, 10, 0.6);\n  padding: 0px;\n  top: 0px;\n  left: 0px;\n  width: 100%;\n  height: 100%;\n  display: block;\n  position: fixed;\n  border: none;\n  z-index: 2147483647;\n}\n\niframe.vimium-hud-frame {\n  background-color: transparent;\n  padding: 0px;\n  overflow: hidden;\n  display: block;\n  position: fixed;\n  width: 20%;\n  min-width: 350px;\n  height: 58px;\n  bottom: -14px;\n  right: 20px;\n  margin: 0 0 0 -40%;\n  border: none;\n  z-index: 2147483647;\n  opacity: 0;\n}\n\nbody.vimium-find-mode ::selection {\n  background: #ff9632;\n}\n\niframe.vomnibar-frame {\n  background-color: transparent;\n  padding: 0px;\n  overflow: hidden;\n\n  display: block;\n  position: fixed;\n  width: calc(80% + 20px); /* same adjustment as in pages/vomnibar_page.js */\n  min-width: 400px;\n  height: calc(100% - 70px);\n  top: 70px;\n  left: 50%;\n  margin: 0 0 0 -40%;\n  border: none;\n  font-family: sans-serif;\n  z-index: 2147483647;\n}\n\ndiv.vimium-flash {\n  box-shadow: 0px 0px 4px 2px #4183c4;\n  padding: 1px;\n  background-color: transparent;\n  position: absolute;\n  z-index: 2147483647;\n}\n\n/* UIComponent CSS */\niframe.vimium-ui-component-hidden {\n  display: none;\n}\n\niframe.vimium-ui-component-visible {\n  display: block;\n  color-scheme: light dark;\n}\n\niframe.vimium-non-clickable {\n  pointer-events: none;\n}\n\n@media (prefers-color-scheme: dark) {\n  :root {\n    --vimium-background-color: #1d1d1f;\n    --vimium-background-text-color: #e3e3e3;\n    --vimium-foreground-color: #292a2d;\n    --vimium-foreground-text-color: #e8eaed;\n    --vimium-link-color: #8ab4f8;\n  }\n\n  /* DarkReader is a popular dark mode browser extension. It can apply an invert filter to the whole\n   * page to make the page dark, when used in Filter and Filter+ modes. We want to reverse/invert\n   * that filter again for Vimium\'s UI elements, because Vimium is already dark mode aware. */\n  iframe.vimium-reverse-dark-reader-filter {\n    -webkit-filter: invert(100%) hue-rotate(180deg) !important;\n    filter: invert(100%) hue-rotate(180deg) !important;\n  }\n\n  /* Dark mode CSS for options page and exclusions */\n\n  body.vimium-body {\n    background-color: var(--vimium-background-color);\n    color: var(--vimium-background-text-color);\n  }\n\n  body.vimium-body a,\n  body.vimium-body a:visited {\n    color: var(--vimium-link-color);\n  }\n\n  body.vimium-body textarea,\n  body.vimium-body input {\n    background-color: var(--vimium-foreground-color);\n    border-color: var(--vimium-foreground-color);\n    color: var(--vimium-foreground-text-color);\n  }\n\n  body.vimium-body div.example {\n    color: #8a9096;\n  }\n}\n',
+        vomnibar:
+          'ul {\n  list-style: none;\n  display: none;\n  margin: 0;\n  padding: 0;\n}\n\n#vomnibar {\n  display: block;\n  position: fixed;\n  width: calc(100% - 20px); /* adjusted to keep border radius and box-shadow visible*/\n  top: 8px;\n  left: 8px;\n  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;\n\n  background: #f1f1f1;\n  text-align: left;\n  border-radius: 4px;\n  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.8);\n  border: 1px solid #aaa;\n  /* One less than hint markers and the help dialog (see ../content_scripts/vimium.css). */\n  z-index: 2139999999;\n}\n\n#vomnibar input {\n  font-size: 20px;\n  height: 34px;\n  margin-bottom: 0;\n  padding: 4px;\n  background-color: white;\n  color: black;\n  border-radius: 3px;\n  border: 1px solid #e8e8e8;\n  box-shadow: #444 0px 0px 1px;\n  width: 100%;\n  outline: none;\n  box-sizing: border-box;\n}\n\n#vomnibar-search-area {\n  display: block;\n  padding: 10px;\n  border-radius: 4px 4px 0 0;\n  border-bottom: 1px solid #c6c9ce;\n}\n\n#vomnibar ul {\n  border-radius: 0 0 4px 4px;\n}\n\n#vomnibar li {\n  border-bottom: 1px solid #ddd;\n  line-height: 1.1em;\n  padding: 7px 10px;\n  font-size: 16px;\n  color: black;\n  position: relative;\n  display: list-item;\n  margin: auto;\n}\n\n#vomnibar li:last-of-type {\n  border-bottom: none;\n}\n\n#vomnibar li .top-half, #vomnibar li .bottom-half {\n  display: block;\n  overflow: hidden;\n}\n\n#vomnibar li .bottom-half {\n  font-size: 15px;\n  margin-top: 3px;\n  padding: 2px 0;\n}\n\n#vomnibar li .icon {\n  padding: 0 13px 0 6px;\n  vertical-align: bottom;\n}\n\n#vomnibar li .source {\n  color: #777;\n  margin-right: 4px;\n}\n#vomnibar li .relevancy {\n  position: absolute;\n  right: 0;\n  top: 0;\n  padding: 5px;\n  color: black;\n  font-family: monospace;\n  width: 100px;\n  overflow: hidden;\n}\n\n#vomnibar li .url {\n  white-space: nowrap;\n  color: #224684;\n}\n\n#vomnibar li .match {\n  font-weight: bold;\n  color: black;\n}\n\n#vomnibar li em, #vomnibar li .title {\n  color: black;\n  margin-left: 4px;\n}\n#vomnibar li em {\n  font-style: italic;\n}\n#vomnibar li em .match, #vomnibar li .title .match {\n  color: #333;\n}\n\n#vomnibar li.selected {\n  background-color: #bbcee9;\n}\n\n#vomnibar input::selection {\n  /* This is the light grey color of the vomnibar border. */\n  /* background-color: #F1F1F1; */\n\n  /* This is the light blue color of the vomnibar selected item. */\n  /* background-color: #BBCEE9; */\n\n  /* This is a considerably lighter blue than Vimium blue, which seems softer\n   * on the eye for this purpose. */\n  background-color: #e6eefb;\n}\n\n.no-insert-text {\n  visibility: hidden;\n}\n\n/* Dark Vomnibar */\n\n@media (prefers-color-scheme: dark) {\n  #vomnibar {\n    background-color: var(--vimium-background-color);\n    color: var(--vimium-background-text-color);\n    border-radius: 6px;\n    border: 1px solid var(--vimium-foreground-color);\n  }\n\n  #vomnibar-search-area {\n    border-bottom: 1px solid var(--vimium-foreground-color);\n  }\n\n  #vomnibar input {\n    background-color: var(--vimium-foreground-color);\n    color: var(--vimium-foreground-text-color);\n    border: none;\n  }\n\n  /* Ensure selected text is visible in dark mode. */\n  #vomnibar input::selection {\n    color: var(--vimium-foreground-color);\n    background-color: var(--vimium-foreground-text-color);\n  }\n\n  #vomnibar li {\n    border-bottom: 1px solid rgba(255, 255, 255, 0.1);\n  }\n\n  #vomnibar li.selected {\n    background-color: #37383a;\n  }\n\n  #vomnibar li .url {\n    white-space: nowrap;\n    color: #5ca1f7;\n  }\n\n  #vomnibar li em,\n  #vomnibar li .title {\n    color: white;\n  }\n\n  #vomnibar li .source {\n    color: #9aa0a6;\n  }\n\n  #vomnibar li .match {\n    color: white;\n  }\n\n  #vomnibar li em .match,\n  #vomnibar li .title .match {\n    color: white;\n  }\n}\n',
+        hud: '#hud-container {\n  display: block;\n  position: fixed;\n  width: calc(100% - 20px);\n  bottom: 8px;\n  left: 8px;\n  background-color: var(--vimium-foreground-color);\n  color: var(--vimium-foreground-text-color);\n  text-align: left;\n  border-radius: 4px;\n  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.8);\n  border: 1px solid #aaa;\n  z-index: 2147483647;\n  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;\n}\n\n#search-area {\n  display: block;\n  padding: 3px;\n  color: var(--vimium-foreground-text-color);\n  border-radius: 4px 4px 0 0;\n}\n\n#hud {\n  font-size: 14px;\n  height: 30px;\n  margin-bottom: 0;\n  padding: 2px 4px;\n  border-radius: 3px;\n  width: 100%;\n  outline: none;\n  box-sizing: border-box;\n  line-height: 20px;\n}\n\nspan#hud-find-input, span#hud-match-count {\n  display: inline;\n  outline: none;\n  white-space: nowrap;\n  overflow-y: hidden;\n}\n\nspan#hud-find-input:before {\n  content: "/";\n}\n\nspan#hud-match-count {\n  color: #aaa;\n  font-size: 12px;\n}\n\nspan#hud-find-input br {\n  display: none;\n}\n\nspan#hud-find-input * {\n  display: inline;\n  white-space: nowrap;\n}\n\n@media (prefers-color-scheme: light) {\n  #hud-body {\n    background-color: #f1f1f1;\n  }\n\n  /* This creates a border around the area where you type, which is nice effect on the light color\n   * scheme. It\'s hard to make this effect visible in dark mode, so we don\'t use it. */\n  #hud.hud-find {\n    background-color: white;\n    border: 1px solid #ccc;\n  }\n}\n',
+        help: 'body {\n  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;\n}\n\n#container {\n  background-color: white;\n  border: 2px solid #b3b3b3;\n  border-radius: 6px;\n  width: 840px;\n  max-width: calc(100% - 100px);\n  max-height: calc(100% - 100px);\n  margin: 50px auto;\n  overflow-y: auto;\n  overflow-x: auto;\n}\n\n#dialog {\n  min-width: 600px;\n  padding: 8px 12px;\n}\n\na {\n  text-decoration: underline;\n  color: #2f508e;\n  cursor: pointer;\n}\n\nheader {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\na#close {\n  font-family: "courier new", monospace;\n  font-weight: bold;\n  color: #555;\n  text-decoration: none;\n  font-size: 24px;\n  position: relative;\n  top: 3px;\n  padding-left: 5px;\n  cursor: pointer;\n}\n\na#close:hover {\n  color: black;\n  -webkit-user-select: none;\n}\n\nh1 {\n  font-size: 20px;\n  white-space: nowrap;\n  flex-grow: 1;\n  font-weight: normal;\n  margin: 4px 0;\n}\n\nh1 .vim {\n  color: #2f508e;\n}\n\nheader a {\n  font-size: 14px;\n  padding-left: 5px;\n  padding-right: 5px;\n}\n\nheader a.close {\n  padding-right: 0;\n}\n\n#commands-section {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n}\n\n.column {\n  display: grid;\n  grid-template-columns: auto 1fr;\n  row-gap: 3px;\n}\n\nh2 {\n  margin-top: 3px;\n  margin-bottom: 4px;\n  font-size: 16px;\n  font-weight: bold;\n}\n\ndiv[data-group] {\n  display: contents;\n}\n\n.row {\n  display: contents;\n}\n\n.help-description {\n  font-size: 14px;\n}\n\ndiv.divider {\n  height: 1px;\n  width: 100%;\n  margin: 10px auto;\n  background-color: #9a9a9a;\n}\n\n/* Advanced commands are hidden by default until "show advanced" is clicked. */\n.row.advanced {\n  display: none;\n}\n\n#dialog.show-advanced .row.advanced {\n  display: contents;\n}\n\nfooter {\n  font-size: 10px;\n  display: flex;\n  justify-content: space-between;\n}\n\n.version-info {\n  text-align: right;\n}\n\n#toggle-advanced {\n  text-align: right;\n  font-size: 10px;\n}\n\n/* Dark Mode CSS for Help Dialog */\n@media (prefers-color-scheme: dark) {\n  #container {\n    border-color: rgba(255, 255, 255, 0.1);\n    background-color: #202124;\n  }\n\n  #dialog {\n    background-color: var(--vimium-background-color);\n    color: var(--vimium-background-text-color);\n  }\n\n  a {\n    color: var(--vimium-link-color);\n  }\n\n  h1,\n  h2 {\n    color: white;\n  }\n\n  h1 .vim {\n    color: var(--vimium-link-color);\n  }\n\n  div.divider {\n    background-color: rgba(255, 255, 255, 0.1);\n  }\n\n  .help-description {\n    /* Use a fainter color than --vimium-background-text-color, so the dialog text doesn\'t get\n       overwhelming. */\n    color: #c9cccf;\n  }\n}\n',
+        keys: '/*\n * Styles for showing key bindings. Shared by help_dialog_page.html and command_listing.html.\n */\n\n.key-bindings {\n  max-width: 110px;\n  font-size: 14px;\n  text-align: right;\n  margin-right: 8px;\n  display: flex;\n  flex-wrap: wrap;\n  align-items: flex-end;\n  justify-content: flex-end;\n}\n\n/* A "key block" includes a key and a comma separator. */\n.key-block {\n  margin-bottom: 4px;\n}\n\n.key {\n  background-color: rgb(243, 243, 243);\n  color: rgb(33, 33, 33);\n  margin-left: 2px;\n  padding: 2px 6px;\n  border-radius: 3px;\n  border: solid 1px #ccc;\n  border-bottom-color: #bbb;\n  box-shadow: inset 0 -1px 0 #bbb;\n  font-family: monospace;\n  font-size: 11px;\n}\n\n.comma {\n  margin-right: 3px;\n}\n\n/* Hide the trailing comma after the last key binding. */\n.key-block:last-of-type .comma {\n  display: none;\n}\n\n@media (prefers-color-scheme: dark) {\n  .key {\n    /* We\'re using a color that pops more than --vimium-foreground-color because the squares\n       representing keys are small and hard to read otherwise. */\n    background-color: #393a3d;\n    border: solid 1px #101010;\n    box-shadow: none;\n    color: white;\n  }\n}\n',
+        options:
+          '/* This stylesheet is included in both options.html and action.html, so changes affect both. */\n:root {\n  --closeButtonWidth: 25px;\n  --validationErrorColor: #ff5300;\n}\n\nbody {\n  font: 14px "DejaVu Sans", "Arial", sans-serif;\n  color: #303942;\n  margin: 0;\n}\n\na,\na:visited {\n  color: #15c;\n}\n\na:active {\n  color: #052577;\n}\n\ndiv#wrapper,\n#footer-content {\n  max-width: 1050px;\n  margin: 0 25px;\n}\n\nheader {\n  font-size: 18px;\n  font-weight: normal;\n  border-bottom: 1px solid #ccc;\n  padding: 20px 0 15px 0;\n  width: 100%;\n}\n\nbutton {\n  -webkit-user-select: none;\n  -webkit-appearance: none;\n  font: inherit;\n  border-width: 1px;\n  border-radius: 3px;\n  padding: 2px 10px;\n}\n\ninput[type="checkbox"] {\n  -webkit-user-select: none;\n  margin: 0;\n  margin-right: 8px;\n}\n\ninput[type="radio"] {\n  margin: 0;\n  margin-left: 0;\n  margin-right: 8px;\n}\n\n.boolean-label {\n  display: flex;\n  align-items: center;\n  gap: 0;\n}\n\npre,\ncode,\n.code {\n  font-family: Consolas, "Liberation Mono", Courier, monospace;\n}\n\npre {\n  margin: 5px;\n  border-left: 1px solid #eee;\n  padding-left: 5px;\n}\n\ninput,\ntextarea {\n  box-sizing: border-box;\n}\n\ntextarea {\n  /* Horizontal resizing breaks the page\'s layout, so we just allow vertical. */\n  resize: vertical;\n}\n\nh2 {\n  margin: 12px 0;\n  font-size: 16px;\n  font-weight: normal;\n}\n\n#settings-grid-container {\n  display: grid;\n  font-size: 14px;\n  grid-template-columns: auto 320px;\n  /* This is required so the "save changes" panel at the bottom of the options page doesn\'t cover\n   * any settings content. */\n  margin-bottom: 100px;\n}\n\n/* Adds a blank line in the grid. */\n#settings-grid-container .spacer {\n  grid-column-start: 1;\n  grid-column-end: 3;\n  height: 10px;\n}\n\n/* These should span the full width of the grid. */\n#settings-grid-container h2,\n#settings-grid-container header {\n  grid-column-start: 1;\n  grid-column-end: 3;\n}\n\n.example {\n  font-size: 12px;\n  line-height: 16px;\n  color: #979ca0;\n  margin-left: 20px;\n}\n\n.reset-link {\n  margin-left: 0px;\n  text-align: right;\n}\n\n.reset-link a {\n  text-decoration: none;\n}\n\n.validation-message {\n  color: var(--validationErrorColor);\n  /* Render newlines in validation messages. When there are multiple errors, they are separated by a\n     newline. */\n  white-space: pre-line;\n}\n\n/* This longer selector is required to take precedence over our dark scheme textarea colors which\n * are defined in vimium.css. */\nbody.vimium-body textarea.validation-error, body.vimium-body input.validation-error {\n  border: 2px solid var(--validationErrorColor);\n}\n\ndiv#exampleKeyMapping {\n  margin-left: 10px;\n  margin-top: 5px;\n}\n\n#new-tab-url-container {\n  display: grid;\n  grid-template-columns: auto 100%;\n  grid-auto-rows: 1.5em;\n  row-gap: 10px;\n  align-items: center;\n}\n\ninput[name="newTabCustomUrl"] {\n  grid-column-start: 2;\n}\n\n#openVomnibarContainer {\n  display: flex;\n  align-items: center;\n  grid-column-start: 2;\n}\n\ninput[name="newTabCustomUrl"] {\n  width: 400px;\n}\n\n#link-hint-characters-container,\n#link-hint-numbers-container,\n#wait-for-enter {\n  display: contents;\n}\n\n.link-hint-characters-field {\n  width: 100%;\n  /* These text fields look strange when they\'re excessively long. */\n  max-width: 400px;\n}\n\n.link-hint-characters-field input {\n  width: 100%;\n}\n\ninput[name="scrollStepSize"] {\n  width: 80px;\n  margin-right: 3px;\n  padding-left: 3px;\n}\n\ntextarea[name="userDefinedLinkHintCss"],\ntextarea[name="keyMappings"],\ntextarea[name="searchEngines"] {\n  width: 100%;\n  min-height: 140px;\n  white-space: pre;\n}\n\ninput[name="previousPatterns"],\ninput[name="nextPatterns"] {\n  width: 100%;\n}\n\ninput#searchUrl {\n  width: 100%;\n}\n\n#status {\n  margin-left: 10px;\n  font-size: 80%;\n}\n\ninput[type="text"]:read-only,\ninput[type="number"]:read-only,\ntextarea:read-only {\n  background-color: #eee;\n  color: #666;\n  pointer-events: none;\n  -webkit-user-select: none;\n}\n\ninput[type="text"],\ntextarea {\n  border: 1px solid #bfbfbf;\n  border-radius: 2px;\n  color: #444;\n  background-color: white;\n  font: inherit;\n  padding: 3px;\n}\n\nbutton:focus,\ninput[type="text"]:focus,\ntextarea:focus {\n  -webkit-transition: border-color 200ms;\n  border-color: #4d90fe;\n  outline: none;\n}\n\n/*\n * CSS for exclusion rules.\n */\n\n#exclusion-scroll-box {\n  overflow: scroll;\n  overflow-x: hidden;\n  overflow-y: auto;\n  /* Each exclusion rule is about 30px tall, so this allows 7 rules before scrolling. */\n  max-height: 215px;\n  border-radius: 2px;\n  color: #444;\n  width: 100%;\n}\n\n#exclusion-rules {\n  width: 100%;\n  border-collapse: collapse;\n}\n\n#exclusion-rules td {\n  vertical-align: top;\n  border: 2px solid transparent;\n  padding: 0px;\n}\n\n#exclusion-rules td:nth-of-type(2) {\n  width: 33%;\n}\n\n#exclusion-rules td:nth-of-type(3) {\n  /* Make the close button td use only the minimum width needed. */\n  width: var(--closeButtonWidth);\n  padding-top: 3px;\n}\n\n#exclusion-rules tr.validationError .validationMessage {\n  display: block;\n}\n\n#exclusion-rules tr.validationError td:nth-of-type(1) input {\n  border-color: orange;\n}\n\n#exclusion-rules .validationMessage {\n  display: block;\n  color: orange;\n  margin-top: 2px;\n  margin-left: 2px;\n}\n\n#exclusion-rules .remove {\n  border: none;\n  color: #979ca0;\n}\n\n#exclusion-rules .remove:hover {\n  color: #444;\n}\n\ninput[name="pattern"],\ninput[name="passKeys"],\n.exclusion-header-text {\n  width: 100%;\n  font-family: Consolas, "Liberation Mono", Courier, monospace;\n  font-size: 14px;\n}\n\n.exclusion-header-text {\n  padding-left: 3px;\n  color: #979ca0;\n}\n\n#exclusion-add-button {\n  float: right;\n  /* Add the spacing between the table\'s cells to the right margin of this button. */\n  margin-right: calc(var(--closeButtonWidth) + 4px);\n  margin-top: 10px;\n}\n\nfooter {\n  background: #f5f5f5;\n  border-top: 1px solid #979ca0;\n  position: fixed;\n  bottom: 0px;\n  left: 0;\n  padding: 15px 0;\n  z-index: 10;\n  width: 100%;\n}\n\n#footer-content {\n  width: 100%;\n  display: flex;\n  align-items: center;\n}\n\n#footer-help-text {\n  flex-grow: 1;\n  font-size: 12px;\n}\n\n#footer-save-options {\n  flex-grow: 0;\n}\n\n#save,\n#exclusion-add-button {\n  white-space: nowrap;\n}\n\n#backupLink {\n  cursor: pointer;\n}\n\ninput#upload-backup {\n  max-width: 400px;\n}\n\n@media (prefers-color-scheme: light) {\n  button {\n    background-image: -webkit-linear-gradient(#ededed, #ededed 38%, #dedede);\n    border-color: rgba(0, 0, 0, 0.25);\n    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.75);\n    color: #444;\n    text-shadow: 0 1px 0 #f0f0f0;\n  }\n\n  button:hover {\n    background-image: -webkit-linear-gradient(#f0f0f0, #f0f0f0 38%, #e0e0e0);\n    border-color: rgba(0, 0, 0, 0.3);\n    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.95);\n    color: black;\n  }\n\n  button:active {\n    background-image: -webkit-linear-gradient(#e7e7e7, #e7e7e7 38%, #d7d7d7);\n    box-shadow: none;\n    text-shadow: none;\n  }\n\n  button[disabled],\n  button[disabled]:hover,\n  button[disabled]:active {\n    background-image: -webkit-linear-gradient(#ededed, #ededed 38%, #dedede);\n    border-color: rgba(0, 0, 0, 0.25);\n    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.75);\n    text-shadow: 0 1px 0 #f0f0f0;\n    color: #888;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  header {\n    border-bottom: 1px solid #999;\n  }\n\n  pre {\n    border-left: 1px solid #666;\n  }\n\n  #exclusion-rules .remove {\n    border: none;\n    color: var(--vimium-foreground-text-color);\n  }\n\n  #exclusion-rules .remove:hover {\n    color: #444;\n    color: #15c;\n    color: var(--vimium-link-color);\n  }\n\n  footer {\n    background-color: var(--vimium-foreground-color);\n    border-color: rgba(255, 255, 255, 0.1);\n  }\n\n  /* Our dark mode style for buttons matches MacOS Mojave\'s dark mode style for HTML buttons. MacOS\n     will automatically apply a dark mode style to unstyled buttons, but that doesn\'t happen on\n     other OSes, so to be cross-platform, we have to set these styles ourselves. */\n  button {\n    background: none;\n    background-color: #2b2a32;\n    border-color: #8f8f9c;\n    border-width: 1px;\n    color: var(--vimium-foreground-text-color);\n    text-shadow: none;\n  }\n  button:hover {}\n  button:active {}\n\n  button[disabled],\n  button[disabled]:hover,\n  button[disabled]:active {\n    color: #75747a;\n    border-color: #75747a;\n    background-color: #222127;\n  }\n}\n',
+        commands:
+          ':root {\n  --border-color: #666;\n}\n\nhtml, body {\n  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;\n  font-size: 14px;\n  margin: 0;\n  padding: 0;\n}\n\nbody {\n  display: grid;\n  grid-template-columns: 200px auto;\n}\n\nnav {\n  border-right: 1px solid var(--border-color);\n  padding-top: 20px;\n}\n\nnav ul {\n  position: fixed;\n  margin: 0;\n  padding-left: 20px;\n}\n\nnav ul li {\n  list-style-type: none;\n  margin: 8px 0;\n}\n\nheader {\n  font-size: 18px;\n  border-bottom: 1px solid var(--border-color);\n  padding: 20px 20px;\n  grid-column: span 2;\n  /* These styles are necessary to show the Github logo when this page is hosted externally. */\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: space-between;\n}\n\n#github-link {\n  display: none;\n}\n\nmain {\n  margin-top: 10px;\n}\n\nh2 {\n  font-size: 20px;\n  background-color: var(--vimium-foreground-color);\n  padding: 20px 20px;\n}\n\n.command {\n  max-width: 900px;\n  padding: 1px 10px;\n  margin: 10px 0;\n  box-sizing: border-box;\n}\n\nh3 {\n  font-size: 18px;\n  margin: 6px 0;\n  font-weight: normal;\n  display: flex;\n  justify-items: space-between;\n}\n\nh3 code {\n  background-color: rgb(243, 243, 243);\n  padding: 4px 6px;\n  /* This pushes the key bindings to the right of the container. */\n  margin-right: auto;\n}\n\np.desc, p.details {\n  margin-left: 1rem;\n}\n\n.options {\n  margin-left: 1rem;\n}\n\n.key {\n  font-size: 14px;\n}\n\n@media (prefers-color-scheme: dark) {\n  h3 code {\n    background-color: var(--vimium-foreground-color);\n  }\n}\n\n/*\n * There are two versions of this page: one served as an extension page, and one generated by the\n * build process and hosted on the vimium.github.io website. The link back to Github is not shown in\n * the version served as an extension page.\n */\n\n.hosted-version #github-link {\n  display: block;\n}\n\n.hosted-version #github-link img#github {\n  width: 40px;\n}\n\n@media (prefers-color-scheme: dark) {\n  .hosted-version #github-link img#github {\n    filter: invert(1);\n  }\n}\n',
+      };
+      const HELP_BODY =
+        '\n    <!-- Note that the command placeholders (data-group=navigation) will be replaced by the\n         background page with the user\'s key bindings when the dialog is shown. -->\n    <div id="container">\n      <div id="dialog">\n        <header>\n          <h1>\n            <span class="vim">Vim<\/span>ium Help\n            <span id="help-dialog-title"><\/span>\n          <\/h1>\n\n          <!-- These buttons are wrapped in a div so they vertically center more evenly. -->\n          <div>\n            <a id="options-page" href="#">Options<\/a>\n            <a href="https://github.com/philc/vimium/wiki" target="_blank">Wiki<\/a>\n            <a id="close" href="#">&times;<\/a>\n          <\/div>\n        <\/header>\n\n        <div class="divider"><\/div>\n\n        <div id="commands-section">\n          <div class="column">\n            <div><\/div>\n            <h2>Navigating the page<\/h2>\n            <div data-group="navigation"><\/div>\n          <\/div>\n\n          <div class="column">\n            <div><\/div>\n            <h2>Using the Vomnibar<\/h2>\n            <div data-group="vomnibar"><\/div>\n\n            <div><\/div>\n            <h2>Using find<\/h2>\n            <div data-group="find"><\/div>\n\n            <div><\/div>\n            <h2>Navigating history<\/h2>\n            <div data-group="history"><\/div>\n\n            <div><\/div>\n            <h2>Manipulating tabs<\/h2>\n            <div data-group="tabs"><\/div>\n\n            <div><\/div>\n            <h2>Miscellaneous<\/h2>\n            <div data-group="misc"><\/div>\n          <\/div>\n        <\/div>\n\n        <div id="toggle-advanced">\n          <a href="#">Show advanced commands<\/a>\n        <\/div>\n\n        <div class="divider"><\/div>\n\n        <footer>\n          <div>\n            Enjoying Vimium?\n            <a\n              target="_blank"\n              href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb/reviews"\n            >Leave us feedback<\/a>.<br>\n            Found a bug? <a\n              target="_blank"\n              href="https://github.com/philc/vimium/issues"\n            >Report it here<\/a>.\n          <\/div>\n\n          <div class="version-info">\n            Version <span id="vimium-version"><\/span>\n            <br>\n            <a\n              href="https://github.com/philc/vimium/blob/master/CHANGELOG.md"\n              target="_blank"\n            >What\'s new?<\/a>\n          <\/div>\n        <\/footer>\n      <\/div>\n    <\/div>\n\n    ';
+      const CL_BODY =
+        '\n    <header>\n      Vimium Commands\n      <a id="github-link" href="https://www.github.com/philc/vimium">\n        \n      <\/a>\n    <\/header>\n    <nav>\n      <ul>\n        <li><a href="#navigation">Navigating the page<\/a><\/li>\n        <li><a href="#find">Using find<\/a><\/li>\n        <li><a href="#history">Navigating history<\/a><\/li>\n        <li><a href="#tabs">Manipulating tabs<\/a><\/li>\n        <li><a href="#misc">Miscellaneous<\/a><\/li>\n      <\/ul>\n    <\/nav>\n\n    <main>\n      <h2 id="navigation" data-group="navigation">Navigating the page<\/h2>\n      <h2 id="vomnibar" data-group="vomnibar">Using the vomnibar<\/h2>\n      <h2 id="find" data-group="find">Using find<\/h2>\n      <h2 id="history" data-group="history">Navigating history<\/h2>\n      <h2 id="tabs" data-group="tabs">Manipulating tabs<\/h2>\n      <h2 id="misc" data-group="misc">Miscellaneous<\/h2>\n    <\/main>\n\n    <template id="command">\n      <div class="command" id="example-command-name">\n        <h3>\n          <code>an-example-command<\/code>\n          <span class="key-bindings"><\/span>\n        <\/h3>\n        <p class="desc">Example description.<\/p>\n        <p class="details"><\/p>\n        <div class="options">\n          <p><strong>Options<\/strong><\/p>\n          <ul><\/ul>\n        <\/div>\n      <\/div>\n    <\/template>\n\n    <template id="keys">\n      <div class="key-block">\n        <span class="key"><\/span><span class="comma">,<\/span>\n      <\/div>\n    <\/template>\n  ';
+
+      const CMDS = {
+        navigation: [
+          ["scrollDown", ["j", "о", "<c-e>"], "Scroll down", "", ["count"]],
+          ["scrollToTop", ["gg", "пп"], "Scroll to the top of the page", "", []],
+          [
+            "LinkHints.activateMode",
+            ["f", "а"],
+            "Open a link in the current tab",
+            "Shows hint labels over every clickable element on the page.",
+            ["action", "characters"],
+          ],
+        ],
+        vomnibar: [
+          [
+            "Vomnibar.activate",
+            ["o", "щ"],
+            "Open URL, bookmark or history entry",
+            "",
+            ["keyword", "query"],
+          ],
+          ["Vomnibar.activateTabSelection", ["T", "Е"], "Search through your open tabs", "", []],
+        ],
+        find: [
+          [
+            "enterFindMode",
+            ["/", "."],
+            "Enter find mode",
+            "Type a word or phrase to find on the page. Supports regular expressions with \\r.",
+            [],
+          ],
+        ],
+        history: [["goBack", ["H", "Р"], "Go back in history", "", ["count"]]],
+        tabs: [
+          ["createTab", ["t", "е"], "Create new tab", "", ["url", "window"]],
+          ["removeTab", ["x", "ч"], "Close current tab", "", ["count"]],
+        ],
+        misc: [["showHelp", ["?", ","], "Show help", "", []]],
+      };
+      function commandsDoc() {
+        const d = new DOMParser().parseFromString("<body>" + CL_BODY + "</body>", "text/html");
+        const tpl = d.querySelector("template#command").content,
+          ktpl = d.querySelector("template#keys").content;
+        for (const [g, list] of Object.entries(CMDS)) {
+          let anchor = d.querySelector('h2[data-group="' + g + '"]');
+          for (const [name, keys, desc, details, opts] of list) {
+            const c = tpl.cloneNode(true),
+              el = c.querySelector(".command");
+            el.id = name;
+            c.querySelector("code").textContent = name;
+            c.querySelector(".desc").textContent = desc;
+            c.querySelector(".details").textContent = details;
+            const kb = c.querySelector(".key-bindings");
+            for (const k of keys) {
+              const kc = ktpl.cloneNode(true);
+              kc.querySelector(".key").textContent = k;
+              kb.append(kc);
+            }
+            if (opts.length)
+              c.querySelector(".options ul").innerHTML = opts
+                .map((o) => "<li><code>" + o + "</code>: option description.</li>")
+                .join("");
+            else c.querySelector(".options").remove();
+            anchor.after(c);
+            anchor = el;
+          }
+        }
+        return (
+          "<!doctype html><html><head><meta charset=utf-8><meta name=color-scheme content='light dark'>" +
+          "<style>" +
+          adapt(ORIG.vimium) +
+          "</style><style>" +
+          adapt(ORIG.keys) +
+          "</style><style>" +
+          adapt(ORIG.commands) +
+          "</style>" +
+          "<style>" +
+          userCss() +
+          "</style><style>" +
+          scheme(true) +
+          "</style></head><body class='vimium-body'>" +
+          d.body.innerHTML +
+          "</body></html>"
+        );
+      }
+
+      const OPT_BODY =
+        '\n    <div id="wrapper">\n      <header>Vimium Options<\/header>\n      <input type="hidden" name="settingsVersion" />\n\n      <div id="settings-grid-container">\n        <h2>Excluded URLs and keys<\/h2>\n        <div>\n          <div id="exclusion-scroll-box">\n            <table id="exclusion-rules">\n              <tr>\n                <td><span class="exclusion-header-text">Patterns<\/span><\/td>\n                <td><span class="exclusion-header-text">Keys to exclude<\/span><\/td>\n              <\/tr>\n            <\/table>\n          <\/div>\n          <button id="exclusion-add-button">Add rule<\/button>\n        <\/div>\n        <div class="example">\n          Disable Vimium on URLs.<br>\n          "Patterns" are URL regular expressions. <code>*<\/code> will match zero or more characters.\n          <br>\n          "Keys": Vimium will exclude these keys and pass them through to the page.\n        <\/div>\n\n        <h2>Custom key mappings<\/h2>\n        <textarea name="keyMappings" type="text" spellcheck="false"><\/textarea>\n        <div class="example">\n          Example syntax:<br>\n          <pre\n            id="exampleKeyMapping"\n          >\nmap j scrollDown\nmap z2 setZoom level=2\nunmap j\nunmapAll\n" this is a comment\n# this is also a comment<\/pre>\n          <a href="/pages/command_listing.html" target="_blank">See all available commands<\/a>.\n        <\/div>\n\n        <h2>Custom search engines<\/h2>\n        <textarea name="searchEngines" spellcheck="false"><\/textarea>\n        <div class="example">\n          Add search-engine shortcuts to the Vomnibar. Format:<br>\n          <pre>\na: http://a.com/?q=%s\nb: http://b.com/?q=%s description\n" this is a comment\n# this is also a comment<\/pre>\n          %s is replaced with the search terms. <br>\n          For search completion, see <a href="doc_search_completion.html" target="_blank">here<\/a>.\n        <\/div>\n\n        <h2>New tab URL<\/h2>\n        <div id="new-tab-url-container">\n          <input\n            id="vimiumNewTabPage"\n            type="radio"\n            name="newTabDestination"\n            value="vimiumNewTabPage"\n          />\n          <label for="vimiumNewTabPage">Vimium blank new tab page<\/label>\n          <div id="openVomnibarContainer">\n            <input id="openVomnibarOnNewTabPage" type="checkbox" name="openVomnibarOnNewTabPage">\n            <label for="openVomnibarOnNewTabPage">Open the Vomnibar when the page loads<\/label>\n          <\/div>\n          <input\n            id="browserNewTabPage"\n            type="radio"\n            name="newTabDestination"\n            value="browserNewTabPage"\n          />\n          <label for="browserNewTabPage">Browser\'s default new tab page<\/label>\n          <input id="customUrl" type="radio" name="newTabDestination" value="customUrl" />\n          <label for="customUrl">Custom URL<\/label>\n          <input type="text" name="newTabCustomUrl" style="display: none" />\n        <\/div>\n        <div class="example">\n          The page to open when using Vimium\'s "create new tab" command. To have Vimium commands\n          work on <em>all<\/em> new tab pages opened by the browser, a separate Vimium new tab\n          extension is required. See the full details <a\n            href="https://github.com/philc/vimium/blob/master/README.md#how-to-allow-vimium-to-work-on-new-tab-pages"\n            target="_blank"\n          >here<\/a>.\n        <\/div>\n\n        <header>Advanced Options<\/header>\n\n        <h2>Scroll step size<\/h2>\n        <span>\n          <input name="scrollStepSize" type="number" />px\n        <\/span>\n        <div class="example">\n          The size for basic movements (usually j/k/h/l).\n        <\/div>\n\n        <div id="link-hint-characters-container">\n          <h2>Characters used for link hints<\/h2>\n          <div class="link-hint-characters-field">\n            <input name="linkHintCharacters" type="text" />\n            <div class="example reset-link"><a href="#">Reset<\/a><\/div>\n          <\/div>\n          <div class="example">\n            The characters placed next to each link after typing "f" to enter link-hint mode.\n          <\/div>\n        <\/div>\n\n        <div id="link-hint-numbers-container">\n          <h2>Numbers used for link hints<\/h2>\n          <div class="link-hint-characters-field">\n            <input name="linkHintNumbers" type="text" />\n            <div class="example reset-link"><a href="#">Reset<\/a><\/div>\n          <\/div>\n          <div class="example">\n            The characters placed next to each link after typing "f" to enter link-hint mode.\n          <\/div>\n        <\/div>\n\n        <div class="spacer"><\/div>\n\n        <label class="boolean-label">\n          <input name="smoothScroll" type="checkbox" />\n          Use smooth scrolling<\/label>\n        <div class="example"><\/div>\n\n        <h2><\/h2>\n        <label class="boolean-label">\n          <input name="filterLinkHints" type="checkbox" />\n          Use the link\'s name and characters for link-hint filtering\n        <\/label>\n        <div class="example">\n          In link-hint mode, this option lets you select a link by typing its text.\n        <\/div>\n\n        <div id="wait-for-enter">\n          <h2><\/h2>\n          <label class="boolean-label">\n            <input name="waitForEnterForFilteredHints" type="checkbox" />\n            Require <tt>Enter<\/tt> when filtering hints\n          <\/label>\n          <div class="example">\n            You activate the link with <tt>Enter<\/tt>, <em>always<\/em>; so you never accidentally\n            type Vimium commands.\n          <\/div>\n        <\/div>\n\n        <h2><\/h2>\n        <label class="boolean-label">\n          <input name="grabBackFocus" type="checkbox" />\n          Don\'t let pages steal the focus on load\n        <\/label>\n        <div class="example">\n          Prevent pages from focusing an input on load (e.g. Google, Bing, etc.).\n        <\/div>\n\n        <h2><\/h2>\n        <label class="boolean-label">\n          <input name="hideHud" type="checkbox" />\n          Hide the Heads Up Display (HUD) in insert mode\n        <\/label>\n        <div class="example">\n          When enabled, the HUD will not be displayed in insert mode.\n        <\/div>\n\n        <h2><\/h2>\n        <label class="boolean-label">\n          <input name="hideUpdateNotifications" type="checkbox" />\n          Hide update notifications\n        <\/label>\n        <div class="example">\n          When enabled, "Vimium has been updated" notifications will not be shown.\n        <\/div>\n\n        <h2><\/h2>\n        <label class="boolean-label">\n          <input name="regexFindMode" type="checkbox" />\n          Treat find queries as JavaScript regular expressions\n        <\/label>\n        <div class="example">\n          Switch back to plain find mode by using the <code>\\R<\/code> escape sequence.\n        <\/div>\n\n        <h2><\/h2>\n        <label class="boolean-label">\n          <input name="ignoreKeyboardLayout" type="checkbox" />\n          Ignore keyboard layout\n        <\/label>\n        <div class="example">\n          This forces the use of <code>en-US<\/code> QWERTY layout and can be helpful for non-Latin\n          keyboards.\n        <\/div>\n\n        <h2>Previous patterns<\/h2>\n        <div>\n          <input name="previousPatterns" type="text" />\n          <div class="example reset-link"><a href="#">Reset<\/a><\/div>\n        <\/div>\n        <div class="example">\n          The "navigate to previous page" command uses these patterns to find the link to follow.\n        <\/div>\n\n        <h2>Next patterns<\/h2>\n        <div>\n          <input name="nextPatterns" type="text" />\n          <div class="example reset-link"><a href="#">Reset<\/a><\/div>\n        <\/div>\n        <div class="example">\n          The "navigate to next page" command uses these patterns to find the link to follow.\n        <\/div>\n\n        <h2>CSS for Vimium UI<\/h2>\n        <div>\n          <textarea\n            name="userDefinedLinkHintCss"\n            class="code"\n            type="text"\n            spellcheck="false"\n          ><\/textarea>\n          <div class="example reset-link"><a href="#">Reset<\/a><\/div>\n        <\/div>\n        <div class="example">\n          These styles are applied to link hints, the Vomnibar, the help dialog, the exclusions\n          pop-up and the HUD.<br>\n          By default, this CSS is used to style the characters next to each link hint.<br>\n          <br>\n          These styles are used in addition to and take precedence over Vimium\'s default styles.\n        <\/div>\n\n        <header>Backup and Restore<\/header>\n\n        <h2>Backup<\/h2>\n        <a id="download-backup" download="vimium-options.json" href="#">Download backup<\/a>\n        <div class="example">Download a backup of your settings.<\/div>\n\n        <h2>Restore<\/h2>\n        <input id="upload-backup" type="file" accept=".json" />\n        <div class="example">\n          Choose a backup file to restore.\n        <\/div>\n      <\/div>\n\n      <footer>\n        <div id="footer-content">\n          <div id="footer-help-text">\n            Type <strong>?<\/strong> to show the help dialog.\n            <br>\n            Type <strong id="shortcut-to-save-all"><\/strong> to save all options.\n          <\/div>\n          <div id="footer-save-options">\n            <button id="save" disabled="disabled">No changes<\/button>\n          <\/div>\n        <\/div>\n      <\/footer>\n    <\/div>\n\n    <template id="exclusion-rule-template">\n      <tr class="rule">\n        <td>\n          <input type="text" name="pattern" spellcheck="false" placeholder="URL pattern" />\n        <\/td>\n        <td>\n          <input type="text" name="passKeys" spellcheck="false" placeholder="All" />\n        <\/td>\n        <td>\n          <input type="button" class="remove" value="&#x2716;" />\n        <\/td>\n      <\/tr>\n    <\/template>\n  ';
+      const EXPORT = {
+        exclusionRules: [
+          { pattern: "https?://mail.google.com/*", passKeys: "" },
+          { pattern: "https?://docs.google.com/*", passKeys: "" },
+          { pattern: "https?://www.figma.com/*", passKeys: "" },
+          { pattern: "https?://monkeytype.com/*", passKeys: "" },
+          { pattern: "https?://github.com/*", passKeys: "t" },
+        ],
+        keyMappings:
+          "map J previousTab\nmap K nextTab\nmap gp togglePinTab\nunmap x\nmap X restoreTab",
+        searchEngines:
+          "w: https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s Wikipedia\ng: https://www.google.com/search?q=%s Google\nyt: https://www.youtube.com/results?search_query=%s YouTube",
+      };
+
+      function optionsDoc() {
+        const d = new DOMParser().parseFromString("<body>" + OPT_BODY + "</body>", "text/html");
+        const tpl = d.querySelector("#exclusion-rule-template");
+        const table = d.querySelector("#exclusion-rules");
+        for (const r of EXPORT.exclusionRules.slice(0, 6)) {
+          const row = tpl.content.cloneNode(true);
+          row.querySelector('[name="pattern"]').setAttribute("value", r.pattern);
+          row.querySelector('[name="passKeys"]').setAttribute("value", r.passKeys);
+          table.append(row);
+        }
+        const set = (n, v) => {
+          const t = d.querySelector('textarea[name="' + n + '"]');
+          if (t) t.textContent = v;
+        };
+        set("keyMappings", EXPORT.keyMappings);
+        set("searchEngines", EXPORT.searchEngines);
+        set(
+          "userDefinedLinkHintCss",
+          variant === "original" ? "" : "/* contents of themes/" + variant + ".css */",
+        );
+        return (
+          "<!doctype html><html><head><meta charset=utf-8><meta name=color-scheme content='light dark'>" +
+          "<style>" +
+          adapt(ORIG.options) +
+          "</style><style>" +
+          adapt(ORIG.vimium) +
+          "</style>" +
+          "<style>" +
+          userCss() +
+          "</style><style>" +
+          scheme(true) +
+          "</style></head><body class='vimium-body'>" +
+          d.body.innerHTML +
+          "</body></html>"
+        );
+      }
+
+      let theme = "system",
+        variant = "minimal";
+      const $ = (id) => document.getElementById(id);
+
+      function adapt(css) {
+        if (theme === "system") return css;
+        const on = "@media all",
+          off = "@media not all";
+        return css
+          .replace(/@media\s*\(prefers-color-scheme:\s*dark\)/g, theme === "dark" ? on : off)
+          .replace(/@media\s*\(prefers-color-scheme:\s*light\)/g, theme === "light" ? on : off);
+      }
+      // Callers wrap this in <style></style>, so close that element, link the theme file, and reopen it.
+      const userCss = () =>
+        variant === "original"
+          ? ""
+          : '</style><link rel="stylesheet" href="' +
+            new URL("themes/" + variant + ".css", location.href).href +
+            '"><style>';
+      const scheme = (ext) =>
+        ":root{color-scheme:" +
+        (theme === "system" ? (ext ? "light dark" : "normal") : theme) +
+        "}";
+      const attr = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+      const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+
+      function extDoc(pageCss, body) {
+        return (
+          "<!doctype html><html><head><meta charset=utf-8><meta name=color-scheme content='light dark'>" +
+          "<style>" +
+          adapt(ORIG.vimium) +
+          "</style><style>" +
+          pageCss.map(adapt).join("\n") +
+          "</style>" +
+          "<style>" +
+          userCss() +
+          "</style><style>" +
+          scheme(true) +
+          "</style></head><body>" +
+          body +
+          "</body></html>"
+        );
+      }
+      const frame = (cls, doc, style) =>
+        '<iframe class="' +
+        cls +
+        ' vimium-ui-component-visible" style="' +
+        (style || "") +
+        '" srcdoc="' +
+        attr(doc) +
+        '"></iframe>';
+
+      const SITE_CSS =
+        "body{margin:0;font:15px/1.6 Georgia,serif;background:#fbfaf7;color:#222}" +
+        "nav{display:flex;gap:22px;align-items:center;padding:14px 40px;border-bottom:1px solid #e6e3dc;font:14px system-ui,sans-serif}" +
+        "nav b{font-size:16px;margin-right:auto} a{color:#1a5fb4} nav a{color:#333;text-decoration:none}" +
+        "input.s{font:13px system-ui;padding:6px 10px;border:1px solid #d8d4cc;border-radius:6px;width:180px;background:#fff;color:#222}" +
+        "article{max-width:680px;margin:30px auto;padding:0 28px} h1{font-size:28px;line-height:1.2;margin:0 0 12px}" +
+        ".meta{font:13px system-ui;color:#777;margin-bottom:20px} button{font:13px system-ui;padding:7px 14px;border-radius:7px;border:1px solid #ccc;background:#fff;color:#222}" +
+        "@media (prefers-color-scheme: dark){body{background:#141416;color:#ddd} nav{border-color:#2a2a2e} nav a{color:#ccc}" +
+        "a{color:#7fb0ff} input.s,button{background:#1f1f22;border-color:#333;color:#ddd} .meta{color:#888}}" +
+        ".small nav a,.small input.s{display:none} .small article{margin-top:18px} .small h1{font-size:22px}";
+      const SITE_BODY =
+        '<nav><b>fieldnotes</b><a data-h href=#>Articles</a><a data-h href=#>Topics</a><a data-h href=#>Archive</a><a data-h href=#>About</a><input data-h class=s placeholder="Search…"></nav>' +
+        "<article><h1>Keyboard-first browsing, ten years in</h1><div class=meta>By the editors · <a data-h href=#>Tools</a> · 6 min read</div>" +
+        "<p>Most of the web still assumes a mouse. Tools like <a data-h href=#>modal link hints</a> turn every clickable element into a two-letter target, so following a link is as fast as <a data-h href=#>typing a word</a>.</p>" +
+        "<p>The trick is to keep the overlay quiet: labels should be legible on <a data-h href=#>any background</a>, without fighting the page's own design. The same applies to the <a data-h href=#>command palette</a> and the find bar.</p>" +
+        "<p><button data-h>Subscribe</button> <button data-h>Share</button></p></article>";
+      const LABELS = ["SA", "SD", "SF", "SJ", "SK", "SL", "DA", "DS", "DF", "DJ", "DK", "DL", "FA"];
+
+      function pageScript(cfg) {
+        const L = cfg.hints && LABELS,
+          typed = cfg.typed || "",
+          find = cfg.find || "";
+        addEventListener("load", () => {
+          if (L) {
+            const c = document.createElement("div");
+            c.id = "vimium-hint-marker-container";
+            c.className = "vimium-reset";
+            document.querySelectorAll("[data-h]").forEach((el, i) => {
+              const label = L[i];
+              if (!label || !label.startsWith(typed.toUpperCase())) return;
+              const r = el.getBoundingClientRect();
+              if (!r.width) return;
+              const m = document.createElement("div");
+              m.className = "vimium-reset internal-vimium-hint-marker vimiumHintMarker";
+              m.style.left = r.left + scrollX + "px";
+              m.style.top = r.top + scrollY + "px";
+              m.innerHTML = [...label]
+                .map(
+                  (ch, j) =>
+                    "<span class='vimium-reset" +
+                    (j < typed.length ? " matchingCharacter" : "") +
+                    "'>" +
+                    ch +
+                    "</span>",
+                )
+                .join("");
+              c.append(m);
+            });
+            document.documentElement.append(c);
+          }
+          if (find) {
+            document.body.classList.add("vimium-find-mode");
+            const w = document.createTreeWalker(
+              document.querySelector("article"),
+              NodeFilter.SHOW_TEXT,
+            );
+            let n;
+            while ((n = w.nextNode())) {
+              const i = n.textContent.toLowerCase().indexOf(find.toLowerCase());
+              if (i >= 0) {
+                const r = document.createRange();
+                r.setStart(n, i);
+                r.setEnd(n, i + find.length);
+                getSelection().addRange(r);
+                break;
+              }
+            }
+          }
+        });
+      }
+
+      function siteDoc(opts, overlay) {
+        return (
+          "<!doctype html><html><head><meta charset=utf-8><style>" +
+          adapt(SITE_CSS) +
+          "</style><style>" +
+          adapt(ORIG.vimium) +
+          "</style><style>" +
+          userCss() +
+          "</style><style>" +
+          scheme(false) +
+          "</style></head><body class='" +
+          (opts.small ? "small" : "") +
+          "'>" +
+          SITE_BODY +
+          (overlay || "") +
+          "<script>const LABELS=" +
+          JSON.stringify(LABELS) +
+          ";(" +
+          pageScript.toString() +
+          ")(" +
+          JSON.stringify(opts) +
+          ")<\/script></body></html>"
+        );
+      }
+
+      function hudFind(query, count) {
+        return frame(
+          "vimium-hud-frame",
+          extDoc(
+            [ORIG.hud],
+            '<div id="hud-container"><div id="search-area"><div id="hud" class="hud-find"><span id="hud-find-input">' +
+              esc(query) +
+              '</span><span id="hud-match-count" style="float:right">' +
+              count +
+              "</span></div></div></div>",
+          ),
+          "opacity:1",
+        );
+      }
+      function hudMsg(text) {
+        return frame(
+          "vimium-hud-frame",
+          extDoc(
+            [ORIG.hud],
+            '<div id="hud-container"><div id="search-area"><div id="hud">' +
+              esc(text) +
+              "</div></div></div>",
+          ),
+          "opacity:1",
+        );
+      }
+
+      const favicon = (c) =>
+        "data:image/svg+xml," +
+        encodeURIComponent(
+          "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='" +
+            c +
+            "'/></svg>",
+        );
+      const M = (s) => "<span class=match>" + s + "</span>";
+      const GIT_ROWS = [
+        [
+          "tab",
+          "Pull requests · vimium/" + M("git") + "hub",
+          "https://" + M("git") + "hub.com/philc/vimium/pulls",
+          "#6e7681",
+        ],
+        ["history", M("Git") + " - Book", "https://" + M("git") + "-scm.com/book/en/v2", "#f05133"],
+        [
+          "bookmark",
+          "Lazy" + M("git") + " keybindings",
+          "https://" + M("git") + "hub.com/jesseduffield/lazygit/docs",
+          "#3b82f6",
+        ],
+        [
+          "history",
+          "Conventional Commits",
+          "https://www.conventionalcommits.org/en/v1.0.0",
+          "#10b981",
+        ],
+        [
+          "history",
+          M("git") + "-rebase Documentation",
+          "https://" + M("git") + "-scm.com/docs/" + M("git") + "-rebase",
+          "#f05133",
+        ],
+        [
+          "search",
+          "Search Google for " + M("git"),
+          "https://www.google.com/search?q=" + M("git"),
+          "#4285f4",
+        ],
+      ];
+      const TAB_ROWS = [
+        ["tab", "Helium browser", "https://helium.computer", "#a855f7"],
+        [
+          "tab",
+          "Pull requests · vimium/github",
+          "https://github.com/philc/vimium/pulls",
+          "#6e7681",
+        ],
+        ["tab", "Inbox (3)", "https://mail.example.com/inbox", "#ef4444"],
+        [
+          "tab",
+          "Keyboard-first browsing, ten years in",
+          "https://fieldnotes.example/keyboard-first",
+          "#f59e0b",
+        ],
+      ];
+      function vomni(query, rows) {
+        const lis = rows
+          .map(
+            (r, i) =>
+              '<li class="' +
+              (i ? "" : "selected") +
+              '"><div class="top-half"><span class="source "></span><span class="source">' +
+              r[0] +
+              '</span><span class="title">' +
+              r[1] +
+              '</span></div><div class="bottom-half"><span class="source no-insert-text"></span><img class="icon" src="' +
+              favicon(r[3]) +
+              '"><span class="url">' +
+              r[2] +
+              "</span></div></li>",
+          )
+          .join("");
+        return frame(
+          "vomnibar-frame",
+          extDoc(
+            [ORIG.vomnibar],
+            '<div id="vomnibar"><div id="vomnibar-search-area"><input type="text" value="' +
+              attr(query) +
+              '"></div><ul style="display:' +
+              (rows.length ? "block" : "") +
+              '">' +
+              lis +
+              "</ul></div>",
+          ),
+        );
+      }
+
+      const HELP = {
+        navigation: [
+          ["j", "Scroll down"],
+          ["k", "Scroll up"],
+          ["gg", "Scroll to the top of the page"],
+          ["G", "Scroll to the bottom of the page"],
+          ["d", "Scroll a half page down"],
+          ["u", "Scroll a half page up"],
+          ["r", "Reload the page"],
+          ["yy", "Copy the current URL to the clipboard"],
+          ["gi", "Focus the first text input on the page"],
+          ["f", "Open a link in the current tab"],
+          ["F", "Open a link in a new tab"],
+          ["i", "Enter insert mode"],
+          ["v", "Enter visual mode"],
+        ],
+        vomnibar: [
+          ["o", "Open URL, bookmark or history entry"],
+          ["O", "Open in a new tab"],
+          ["b", "Open a bookmark"],
+          ["T", "Search through your open tabs"],
+        ],
+        find: [
+          ["/", "Enter find mode"],
+          ["n", "Cycle forward to the next find match"],
+          ["N", "Cycle backward to the previous find match"],
+        ],
+        history: [
+          ["H", "Go back in history"],
+          ["L", "Go forward in history"],
+        ],
+        tabs: [
+          ["t", "Create new tab"],
+          ["J,gT", "Go one tab left"],
+          ["K,gt", "Go one tab right"],
+          ["x", "Close current tab"],
+          ["X", "Restore closed tab"],
+        ],
+        misc: [["?", "Show help"]],
+      };
+      function helpBody() {
+        const d = new DOMParser().parseFromString("<body>" + HELP_BODY + "</body>", "text/html");
+        for (const [g, rows] of Object.entries(HELP))
+          d.querySelector('[data-group="' + g + '"]').innerHTML = rows
+            .map(
+              ([k, t]) =>
+                '<div class="row"><div class="key-bindings">' +
+                (Array.isArray(k) ? k : k.split(","))
+                  .map(
+                    (x) =>
+                      '<div class="key-block"><span class="key">' +
+                      x +
+                      '</span><span class="comma">,</span></div>',
+                  )
+                  .join("") +
+                '</div><div class="help-description">' +
+                t +
+                "</div></div>",
+            )
+            .join("");
+        d.querySelector("#vimium-version").textContent = "2.4.2";
+        return d.body.innerHTML;
+      }
+
+      function statesDoc() {
+        const mk = (x, cls, spans) =>
+          '<div class="vimium-reset internal-vimium-hint-marker vimiumHintMarker ' +
+          cls +
+          '" style="left:' +
+          x +
+          'px;top:30px">' +
+          spans +
+          "</div>";
+        const sp = (c, m) =>
+          '<span class="vimium-reset' + (m ? " matchingCharacter" : "") + '">' + c + "</span>";
+        return (
+          "<!doctype html><html><head><style>" +
+          adapt(SITE_CSS) +
+          "</style><style>" +
+          adapt(ORIG.vimium) +
+          "</style><style>" +
+          userCss() +
+          "</style><style>" +
+          scheme(false) +
+          "</style></head><body><div class=vimium-reset id=vimium-hint-marker-container>" +
+          mk(40, "", sp("S") + sp("A")) +
+          mk(140, "", sp("S", 1) + sp("A")) +
+          "<div>" +
+          mk(240, "vimiumActiveHintMarker", sp("S") + sp("A")) +
+          "</div></div>" +
+          '<input class=s style="position:absolute;left:340px;top:24px;width:220px;box-sizing:border-box" value="search field"><div class="internal-vimium-input-hint vimium-reset" style="position:absolute;left:338px;top:22px;width:224px;height:36px"></div>' +
+          '<input class=s style="position:absolute;left:600px;top:24px;width:220px;box-sizing:border-box" value="selected input"><div class="internal-vimium-input-hint internal-vimium-selected-input-hint vimium-reset" style="position:absolute;left:598px;top:22px;width:224px;height:36px"></div></body></html>'
+        );
+      }
+
+      function render() {
+        $("v-hints").srcdoc = siteDoc({ hints: true });
+        $("v-hints-typed").srcdoc = siteDoc({ hints: true, typed: "s" });
+        $("v-states").srcdoc = statesDoc();
+        $("v-find-word").srcdoc = siteDoc(
+          { small: true, find: "hints" },
+          hudFind("hints", " (3 Matches)"),
+        );
+        $("v-find-sentence").srcdoc = siteDoc(
+          { small: true, find: "keep the overlay quiet" },
+          hudFind("keep the overlay quiet", " (1 Match)"),
+        );
+        $("v-find-none").srcdoc = siteDoc(
+          { small: true },
+          hudFind("vimium rocks", " (No matches)"),
+        );
+        $("v-hud-yank").srcdoc = siteDoc(
+          { small: true },
+          hudMsg("Yanked https://fieldnotes.example/keyboard-first"),
+        );
+        $("v-hud-visual").srcdoc = siteDoc({ small: true }, hudMsg("Visual mode"));
+        $("v-hud-insert").srcdoc = siteDoc({ small: true }, hudMsg("Insert mode"));
+        $("v-vomni").srcdoc = siteDoc({}, vomni("git", GIT_ROWS));
+        $("v-vomni-empty").srcdoc = siteDoc({ small: true }, vomni("", []));
+        $("v-vomni-tabs").srcdoc = siteDoc({ small: true }, vomni("", TAB_ROWS));
+        $("v-help").srcdoc = siteDoc(
+          {},
+          frame("vimium-help-dialog-frame", extDoc([ORIG.keys, ORIG.help], helpBody())),
+        );
+        $("v-options").srcdoc = optionsDoc();
+        $("v-commands").srcdoc = commandsDoc();
+        $("css-name").textContent =
+          variant === "original" ? "(no custom CSS)" : "themes/" + variant + ".css";
+      }
+      for (const id of ["variant"])
+        $(id).addEventListener("click", (e) => {
+          const b = e.target.closest("button");
+          if (!b) return;
+          for (const x of b.parentNode.querySelectorAll("button"))
+            x.classList.toggle("on", x === b);
+          variant = b.dataset.v;
+          render();
+        });
+      render();
+    </script>
+  </body>
+</html>
