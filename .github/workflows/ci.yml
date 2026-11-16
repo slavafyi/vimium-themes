@@ -2,9 +2,19 @@ name: CI
 
 on:
   pull_request:
+    paths-ignore:
+      - "gallery/**"
+      - LICENSE
+      - .editorconfig
+      - .gitignore
   push:
     branches:
       - main
+    paths-ignore:
+      - "gallery/**"
+      - LICENSE
+      - .editorconfig
+      - .gitignore
 
 permissions:
   contents: read
