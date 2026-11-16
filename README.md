@@ -20,11 +20,13 @@ Minimal CSS themes for [Vimium]. Each theme supports light and dark mode and fol
 
 1. Open the Vimium options page: right-click the Vimium toolbar icon and choose **Options**.
 2. In **Advanced Options**, find **CSS for Vimium UI**.
-3. Replace the field's contents with the contents of a theme file, for example [themes/minimal.css](themes/minimal.css). Theme files are also attached to each [GitHub release](https://github.com/slavafyi/vimium-themes/releases).
+3. Replace the field's contents with a theme file from the [latest release](https://github.com/slavafyi/vimium-themes/releases/latest), for example `minimal.css`.
 4. Click **Save changes**.
 5. Reload open tabs. Vimium adds the CSS when a page loads, so tabs that were already open keep the old style until they reload.
 
 To go back to the default look, click **Reset** under the field and save.
+
+Vimium saves at most 8 KB in this field, so the release files are minified. The readable files in [themes](themes) are too large to paste.
 
 ## What is styled
 
@@ -63,13 +65,14 @@ Made for Vimium 2.4.x. The themes use CSS nesting and `:has()`, which all curren
 
 ```sh
 pnpm install
+pnpm build      # build dist/ and check the 8 KB limit
 pnpm fmt        # format all files
 pnpm fmt:check  # check formatting
 pnpm lint       # lint the themes with Stylelint
 pnpm release    # bump the version and tag a release
 ```
 
-Pushing a tag runs the release workflow, which creates a GitHub release with the theme files.
+Pushing a tag runs the release workflow, which creates a GitHub release with the built theme files.
 
 ## License
 
