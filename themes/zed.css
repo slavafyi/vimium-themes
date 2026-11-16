@@ -30,7 +30,6 @@
 
   --vx-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.12);
   --vx-hud-shadow: none;
-  --vx-backdrop: rgba(0, 0, 0, 0.15);
 
   --vx-hint-bg: #fafafa;
   --vx-hint-text: #242529;
@@ -59,7 +58,6 @@
     --vx-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.45);
     --vx-hud-shadow: none;
     --vx-hint-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    --vx-backdrop: rgba(0, 0, 0, 0.3);
     --vx-hint-bg: #282c33;
     --vx-hint-text: #dce0e5;
     --vx-hint-typed: #74ade8;
@@ -108,10 +106,6 @@ div.internal-vimium-selected-input-hint {
   border: 2px solid var(--vx-accent) !important;
 }
 
-div.vimium-highlighted-frame {
-  border: 2px solid var(--vx-accent);
-}
-
 div.vimium-flash {
   box-shadow: 0 0 0 2px var(--vx-accent);
   border-radius: 3px;
@@ -122,29 +116,11 @@ body.vimium-find-mode ::selection {
   color: #111;
 }
 
-iframe.vomnibar-frame {
-  width: min(720px, calc(100% - 32px));
-  min-width: 0;
-  left: 50%;
-  margin: 0;
-  transform: translateX(-50%);
-  top: 10vh;
-  height: 90vh;
-}
-
-iframe.vimium-hud-frame {
-  bottom: 0;
-  right: 16px;
-}
-
-iframe.vimium-help-dialog-frame {
-  background-color: var(--vx-backdrop);
-}
-
 #vomnibar:has(> #vomnibar-search-area) {
-  width: calc(100% - 48px);
+  width: min(720px, calc(100% - 48px));
   top: 12px;
-  left: 24px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--vx-font);
   background: var(--vx-bg);
   color: var(--vx-text);
@@ -283,7 +259,7 @@ iframe.vimium-help-dialog-frame {
   max-width: calc(100% - 20px);
   left: auto;
   right: 10px;
-  bottom: 8px;
+  bottom: 22px;
   font-family: var(--vx-font);
   background: var(--vx-bg);
   color: var(--vx-text);
