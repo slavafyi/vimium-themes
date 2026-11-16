@@ -1,4 +1,4 @@
-name: Deploy preview to Pages
+name: Deploy
 
 on:
   push:
