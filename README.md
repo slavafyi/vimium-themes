@@ -21,7 +21,6 @@ Minimal CSS themes for [Vimium]. Each theme supports light and dark mode and fol
 1. Open the Vimium options page: right-click the Vimium toolbar icon and choose **Options**.
 2. In **Advanced Options**, find **CSS for Vimium UI**.
 3. Replace the field's contents with the contents of a theme file, for example [themes/minimal.css](themes/minimal.css). Theme files are also attached to each [GitHub release](https://github.com/slavafyi/vimium-themes/releases).
-   On macOS you can copy it with `pbcopy < themes/minimal.css`.
 4. Click **Save changes**.
 5. Reload open tabs. Vimium adds the CSS when a page loads, so tabs that were already open keep the old style until they reload.
 
