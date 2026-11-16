@@ -1,6 +1,6 @@
 /* Vimium Themes: Minimal
  * Flat neutral surfaces, inverse hint labels, and an accent color only for focus and links.
- * Paste into Vimium Options > Advanced Options > CSS for Vimium UI.
+ * Build with pnpm build, then paste dist/minimal.css into Vimium Options > Advanced Options > CSS for Vimium UI.
  * Vimium injects this CSS into every page, so all rules are scoped to Vimium's own elements. */
 
 :root {

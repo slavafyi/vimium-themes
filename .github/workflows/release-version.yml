@@ -20,6 +20,8 @@ jobs:
         with:
           node-version-file: .node-version
       - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,4 +33,4 @@ jobs:
           fi
 
           pnpx changelogithub --to "$GITHUB_REF_NAME"
-          gh release upload "$GITHUB_REF_NAME" themes/minimal.css themes/zed.css --clobber
+          gh release upload "$GITHUB_REF_NAME" dist/minimal.css dist/zed.css --clobber

@@ -1,6 +1,6 @@
 /* Vimium Themes: Zed
  * Colors from the Zed One Light and One Dark themes, with compact one-line Vomnibar rows.
- * Paste into Vimium Options > Advanced Options > CSS for Vimium UI.
+ * Build with pnpm build, then paste dist/zed.css into Vimium Options > Advanced Options > CSS for Vimium UI.
  * Vimium injects this CSS into every page, so all rules are scoped to Vimium's own elements. */
 
 :root {

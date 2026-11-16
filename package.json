@@ -19,6 +19,7 @@
   },
   "type": "module",
   "scripts": {
+    "build": "node scripts/build.js",
     "fmt": "oxfmt --write .",
     "fmt:check": "oxfmt --check .",
     "lint": "stylelint 'themes/*.css'",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "bumpp": "^12.3.0",
+    "lightningcss": "^1.33.0",
     "oxfmt": "^0.78.0",
     "stylelint": "^18.0.0",
     "stylelint-config-recommended": "^19.0.0"
