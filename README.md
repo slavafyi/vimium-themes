@@ -1,4 +1,4 @@
-[![CI](https://github.com/slavafyi/vimium-themes/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/slavafyi/vimium-themes/actions/workflows/ci.yml) [![Release](https://img.shields.io/github/v/release/slavafyi/vimium-themes?color=brightgreen)](https://github.com/slavafyi/vimium-themes/releases/latest)
+[![CI](https://github.com/slavafyi/vimium-themes/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/slavafyi/vimium-themes/actions/workflows/ci.yml) [![Release](https://img.shields.io/github/v/release/slavafyi/vimium-themes?color=brightgreen)](https://github.com/slavafyi/vimium-themes/releases/latest) [![Preview](https://github.com/slavafyi/vimium-themes/actions/workflows/preview.yml/badge.svg)](https://github.com/slavafyi/vimium-themes/actions/workflows/preview.yml)
 
 # Vimium Themes
 
@@ -14,7 +14,7 @@ Minimal CSS themes for [Vimium]. Each theme supports light and dark mode and fol
 | `minimal` | ![minimal, light](gallery/minimal-light.png) | ![minimal, dark](gallery/minimal-dark.png) |
 | `zed`     | ![zed, light](gallery/zed-light.png)         | ![zed, dark](gallery/zed-dark.png)         |
 
-Open [preview.html](preview.html) in a Chromium-based browser to see every styled part: link hints, find mode, HUD messages, the Vomnibar, the help dialog, the options page, and the commands page. To switch between light and dark, use DevTools > Rendering > Emulate CSS media feature prefers-color-scheme.
+**[Open the preview](https://slavafyi.github.io/vimium-themes/)** to see every styled part. It follows your system light or dark mode.
 
 ## Installation
 
@@ -50,7 +50,7 @@ Vimium injects this CSS into every web page as well as its own pages. Every rule
 
 ## Compatibility
 
-Made for Vimium 2.4.x. The themes use CSS nesting and `:has()`, which need Chromium 120 or later.
+Made for Vimium 2.4.x. The themes use CSS nesting and `:has()`, which all current browsers support.
 
 ## Credits
 
