@@ -6,12 +6,9 @@
 :root {
   --vx-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
   --vx-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
-  --vx-hint-font: var(--vx-mono);
 
   --vx-radius: 6px;
   --vx-row-radius: 4px;
-  --vx-hint-radius: 3px;
-  --vx-hud-radius: 4px;
 
   --vx-bg: #ffffff;
   --vx-surface: rgba(0, 0, 0, 0.04);
@@ -24,22 +21,12 @@
   --vx-on-accent: #ffffff;
   --vx-ring: rgba(37, 99, 235, 0.2);
 
-  --vx-match-color: var(--vx-text);
-  --vx-match-weight: 600;
-
   --vx-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.12);
-  --vx-hud-shadow: none;
 
   --vx-hint-bg: #1f1f22;
   --vx-hint-text: #fafafa;
   --vx-hint-typed: rgba(250, 250, 250, 0.35);
-  --vx-hint-border: transparent;
   --vx-hint-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
-
-  --vx-input-size: 16px;
-  --vx-input-height: 44px;
-  --vx-row-font: 14px;
-  --vx-row-pad: 7px 10px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -55,7 +42,6 @@
     --vx-on-accent: #0b1220;
     --vx-ring: rgba(138, 180, 255, 0.22);
     --vx-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.45);
-    --vx-hud-shadow: none;
     --vx-hint-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     --vx-hint-bg: #ececee;
     --vx-hint-text: #1e1e20;
@@ -66,14 +52,14 @@
 div.vimiumHintMarker.internal-vimium-hint-marker {
   padding: 1px 4px;
   background: var(--vx-hint-bg);
-  border: 1px solid var(--vx-hint-border);
-  border-radius: var(--vx-hint-radius);
+  border: 1px solid transparent;
+  border-radius: 3px;
   box-shadow: var(--vx-hint-shadow);
 }
 
 div.vimiumHintMarker.internal-vimium-hint-marker > span {
   color: var(--vx-hint-text);
-  font-family: var(--vx-hint-font);
+  font-family: var(--vx-mono);
   font-size: 11px;
   font-weight: 600;
   line-height: 1.3;
@@ -130,14 +116,13 @@ body.vimium-find-mode ::selection {
   & #vomnibar-search-area {
     padding: 0 4px;
     border: none;
-    border-radius: 0;
   }
 
   & input {
-    height: var(--vx-input-height);
+    height: 44px;
     padding: 0 10px;
     font-family: var(--vx-font);
-    font-size: var(--vx-input-size);
+    font-size: 16px;
     background: transparent;
     color: var(--vx-text);
     caret-color: var(--vx-accent);
@@ -158,12 +143,11 @@ body.vimium-find-mode ::selection {
   & ul {
     padding: 4px;
     border-top: 1px solid var(--vx-border);
-    border-radius: 0;
   }
 
   & li {
-    padding: var(--vx-row-pad);
-    font-size: var(--vx-row-font);
+    padding: 7px 10px;
+    font-size: 14px;
     line-height: 1.35;
     color: var(--vx-text);
     border: none;
@@ -213,12 +197,9 @@ body.vimium-find-mode ::selection {
     color: var(--vx-muted);
   }
 
-  & li .match,
-  & li .title .match,
-  & li em .match,
-  & li .url .match {
-    color: var(--vx-match-color);
-    font-weight: var(--vx-match-weight);
+  & li .match {
+    color: var(--vx-text);
+    font-weight: 600;
   }
 
   & li .relevancy {
@@ -238,17 +219,15 @@ body.vimium-find-mode ::selection {
   background: var(--vx-bg);
   color: var(--vx-text);
   border: 1px solid var(--vx-border);
-  border-radius: var(--vx-hud-radius);
-  box-shadow: var(--vx-hud-shadow);
+  border-radius: 4px;
+  box-shadow: none;
 
   & #search-area {
     padding: 0;
     color: var(--vx-text);
-    border-radius: var(--vx-hud-radius);
   }
 
-  & #hud,
-  & #hud.hud-find {
+  & #hud {
     height: 28px;
     padding: 0 10px;
     font-size: 13px;
@@ -258,7 +237,6 @@ body.vimium-find-mode ::selection {
     text-overflow: ellipsis;
     background: transparent;
     border: none;
-    border-radius: var(--vx-hud-radius);
   }
 
   & span#hud-find-input::before {
@@ -274,7 +252,7 @@ body.vimium-find-mode ::selection {
   }
 }
 
-:is(#container:has(> #dialog > #commands-section), body.vimium-body:has(> main > h2[data-group])) {
+:is(#container:has(> #dialog > #commands-section), body.vimium-body) {
   & .key {
     margin-left: 2px;
     padding: 1px 5px;
@@ -341,7 +319,6 @@ body.vimium-find-mode ::selection {
     font-size: 18px;
     font-weight: 400;
     color: var(--vx-muted);
-    text-decoration: none;
   }
 
   & a#close:hover {
@@ -391,7 +368,7 @@ body.vimium-find-mode ::selection {
   }
 }
 
-body.vimium-body:where(:has(#settings-grid-container), :has(> main > h2[data-group])) {
+body.vimium-body {
   font: 14px/1.5 var(--vx-font);
   color: var(--vx-text);
   background: var(--vx-bg);
@@ -489,7 +466,6 @@ body.vimium-body:has(#settings-grid-container) {
     font: 13px var(--vx-font);
     color: var(--vx-text);
     background: var(--vx-bg);
-    background-image: none;
     border: 1px solid var(--vx-border);
     border-radius: var(--vx-row-radius);
     box-shadow: none;
@@ -501,8 +477,7 @@ body.vimium-body:has(#settings-grid-container) {
     background: var(--vx-surface);
   }
 
-  & button[disabled],
-  & button[disabled]:hover {
+  & button[disabled] {
     opacity: 0.45;
     cursor: default;
   }
