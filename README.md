@@ -1,3 +1,5 @@
+[![CI](https://github.com/slavafyi/vimium-themes/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/slavafyi/vimium-themes/actions/workflows/ci.yml) [![Release](https://img.shields.io/github/v/release/slavafyi/vimium-themes?color=brightgreen)](https://github.com/slavafyi/vimium-themes/releases/latest)
+
 # Vimium Themes
 
 Minimal CSS themes for [Vimium]. Each theme supports light and dark mode and follows your browser or system color scheme.
